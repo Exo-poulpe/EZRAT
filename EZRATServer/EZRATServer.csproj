@@ -108,5 +108,8 @@
   <ItemGroup>
     <None Include="res\chat-64.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\up-50.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

