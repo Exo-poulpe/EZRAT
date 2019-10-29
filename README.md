@@ -13,8 +13,11 @@ For install client and server you must downlaod binaries and compile then
 - [x] Client Reverse TCP
 - [x] Client Hiding
 - [x] MultiClient
-- [x] Get informations form client
+- [x] Get informations from client
 - [x] File browsing client
+- [ ] Disconnect server correctly
+- [ ] Download upload file
+- [ ] Startup
 - [ ] Process viewer
 - [ ] Remote desktop
 - [ ] Camera stream

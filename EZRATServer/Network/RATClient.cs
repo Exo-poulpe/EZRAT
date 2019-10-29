@@ -47,15 +47,6 @@ namespace EZRATServer.Network
                 base.Bind(this.RemoteEndPoint);
                 goto SEND;
             }
-        }
-        public ClientData GetDataFromClient(int id)
-        {
-            SendData("info");
-            this.Listen(1);
-            byte[] data = new byte[1024];
-            this.Receive(data);
-            string result = Encoding.Default.GetString(data);
-            return new ClientData(id, result, result, result, result);
-        }
+        } 
     }
 }
