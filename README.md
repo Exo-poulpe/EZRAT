@@ -16,7 +16,7 @@ For install client and server you must downlaod binaries and compile then
 - [x] Get informations from client
 - [x] File browsing client
 - [ ] Disconnect server correctly
-- [ ] Download upload file
+- [x] Download upload file
 - [ ] Startup
 - [ ] Process viewer
 - [ ] Remote desktop

