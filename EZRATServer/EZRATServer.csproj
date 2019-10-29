@@ -45,10 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileBrowser.cs">
+    <Compile Include="Forms\FileBrowser.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FileBrowser.Designer.cs">
+    <Compile Include="Forms\FileBrowser.Designer.cs">
       <DependentUpon>FileBrowser.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Chat.cs">
@@ -76,7 +76,7 @@
     <Compile Include="Utils\ImageContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="FileBrowser.resx">
+    <EmbeddedResource Include="Forms\FileBrowser.resx">
       <DependentUpon>FileBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Chat.resx">

@@ -28,15 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lstFiles = new System.Windows.Forms.ListView();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.lblDrives = new System.Windows.Forms.Label();
             this.cmbDrives = new System.Windows.Forms.ComboBox();
             this.lblPath = new System.Windows.Forms.Label();
             this.picUp = new System.Windows.Forms.PictureBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.downloadMenu = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picUp)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstFiles
@@ -44,31 +49,33 @@
             this.lstFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.lstFiles.ContextMenuStrip = this.contextMenuStrip1;
             this.lstFiles.FullRowSelect = true;
             this.lstFiles.HideSelection = false;
-            this.lstFiles.Location = new System.Drawing.Point(-3, 23);
+            this.lstFiles.Location = new System.Drawing.Point(-1, 22);
             this.lstFiles.MultiSelect = false;
             this.lstFiles.Name = "lstFiles";
-            this.lstFiles.Size = new System.Drawing.Size(494, 201);
+            this.lstFiles.Size = new System.Drawing.Size(660, 252);
             this.lstFiles.TabIndex = 0;
             this.lstFiles.UseCompatibleStateImageBehavior = false;
             this.lstFiles.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Name";
+            this.columnHeader1.Width = 100;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Type";
             // 
             // menuStrip1
             // 
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(491, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(657, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Name";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Type";
             // 
             // lblDrives
             // 
@@ -107,11 +114,30 @@
             this.picUp.TabIndex = 5;
             this.picUp.TabStop = false;
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripSeparator1,
+            this.downloadMenu});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 32);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // downloadMenu
+            // 
+            this.downloadMenu.Name = "downloadMenu";
+            this.downloadMenu.Size = new System.Drawing.Size(180, 22);
+            this.downloadMenu.Text = "Download";
+            // 
             // FileBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(491, 222);
+            this.ClientSize = new System.Drawing.Size(657, 277);
             this.Controls.Add(this.picUp);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.cmbDrives);
@@ -122,6 +148,7 @@
             this.Name = "FileBrowser";
             this.Text = "FileBrowser";
             ((System.ComponentModel.ISupportInitialize)(this.picUp)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,5 +164,8 @@
         private System.Windows.Forms.ComboBox cmbDrives;
         private System.Windows.Forms.Label lblPath;
         private System.Windows.Forms.PictureBox picUp;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem downloadMenu;
     }
 }

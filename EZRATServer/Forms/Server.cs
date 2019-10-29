@@ -332,10 +332,10 @@ namespace EZRATServer
                 if (!_clientSockets[i].Connected)
                 {
                     lstClients.Items[i].Remove();
-                    _clientSockets.RemoveAt(i - 1);
+                    _clientSockets.RemoveAt(i);
 
 
-             }
+                }
 
             }
         }
@@ -548,7 +548,10 @@ namespace EZRATServer
 
         private void RestartServer(int id)
         {
-            this.lstClients.Invoke(new MethodInvoker(() => this.lstClients.Items[id].Remove()));
+            if (lstClients.Items.Count > 0)
+            {
+                this.lstClients.Invoke(new MethodInvoker(() => this.lstClients.Items[id].Remove()));
+            }
             MessageBox.Show($"Client disconnect : {id}");
         }
 
@@ -617,7 +620,7 @@ namespace EZRATServer
                         string[] lines = mainContainer[2].Split('¦'); //Split the data into parts
                         string ip = lines[0]; //The computer's local IPv4 address
                         string name = lines[1]; //The Computer Name
-                        string user = lines[2].Substring(lines[2].LastIndexOf('\\')+1); //The computer's date and time
+                        string user = lines[2].Substring(lines[2].LastIndexOf('\\') + 1); //The computer's date and time
                         string windows = lines[3]; //The computer's installed Anti Virus product
 
                         AddToData(new ClientData(id, ip, name, user, windows)); //Update the UI

