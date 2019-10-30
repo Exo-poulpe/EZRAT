@@ -16,13 +16,17 @@ For install client and server you must downlaod binaries and compile then
 - [x] MultiClient
 - [x] Get informations from client
 - [x] File browsing client
+- [x] File transfert (only for small file ~10MB)
 - [x] Disconnect server correctly
 - [x] Download upload file
 - [ ] Startup
 - [x] Process viewer
 - [ ] Remote desktop
-- [ ] ScreenShot
+- [x] ScreenShot
 - [ ] Camera stream
+- [ ] Sound play
+- [ ] System info in details
+
 
 ## Author :
 Exo-poulpe

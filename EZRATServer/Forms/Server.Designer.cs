@@ -34,11 +34,11 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
             this.lstClients = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageContextMenu1 = new EZRATServer.Utils.ImageContextMenu();
             this.panTools.SuspendLayout();
             this.SuspendLayout();
@@ -58,10 +58,9 @@
             // btnSettings
             // 
             this.btnSettings.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSettings.Location = new System.Drawing.Point(0, 313);
             this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(93, 39);
+            this.btnSettings.Size = new System.Drawing.Size(96, 39);
             this.btnSettings.TabIndex = 4;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = false;
@@ -69,10 +68,9 @@
             // btnBuild
             // 
             this.btnBuild.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnBuild.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuild.Location = new System.Drawing.Point(0, 223);
             this.btnBuild.Name = "btnBuild";
-            this.btnBuild.Size = new System.Drawing.Size(93, 39);
+            this.btnBuild.Size = new System.Drawing.Size(96, 39);
             this.btnBuild.TabIndex = 3;
             this.btnBuild.Text = "Builder";
             this.btnBuild.UseVisualStyleBackColor = false;
@@ -80,10 +78,9 @@
             // btnStop
             // 
             this.btnStop.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Location = new System.Drawing.Point(0, 130);
             this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(93, 39);
+            this.btnStop.Size = new System.Drawing.Size(96, 39);
             this.btnStop.TabIndex = 2;
             this.btnStop.Text = "Stop server";
             this.btnStop.UseVisualStyleBackColor = false;
@@ -91,63 +88,61 @@
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Location = new System.Drawing.Point(0, 47);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(93, 39);
+            this.btnStart.Size = new System.Drawing.Size(96, 39);
             this.btnStart.TabIndex = 0;
             this.btnStart.Text = "Start server";
             this.btnStart.UseVisualStyleBackColor = false;
             // 
             // lstClients
             // 
-            this.lstClients.Alignment = System.Windows.Forms.ListViewAlignment.Default;
-            this.lstClients.BackColor = System.Drawing.Color.Gainsboro;
+            this.lstClients.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstClients.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstClients.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5});
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8,
+            this.columnHeader9,
+            this.columnHeader10});
             this.lstClients.ContextMenuStrip = this.imageContextMenu1;
-            this.lstClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstClients.ForeColor = System.Drawing.Color.Black;
             this.lstClients.FullRowSelect = true;
             this.lstClients.GridLines = true;
             this.lstClients.HideSelection = false;
-            this.lstClients.Location = new System.Drawing.Point(93, 0);
+            this.lstClients.Location = new System.Drawing.Point(96, 0);
             this.lstClients.MultiSelect = false;
             this.lstClients.Name = "lstClients";
-            this.lstClients.Size = new System.Drawing.Size(735, 419);
-            this.lstClients.TabIndex = 1;
+            this.lstClients.Size = new System.Drawing.Size(729, 419);
+            this.lstClients.TabIndex = 2;
             this.lstClients.UseCompatibleStateImageBehavior = false;
             this.lstClients.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader1
+            // columnHeader6
             // 
-            this.columnHeader1.Text = "Id";
+            this.columnHeader6.Text = "Id";
             // 
-            // columnHeader2
+            // columnHeader7
             // 
-            this.columnHeader2.Text = "Ip";
+            this.columnHeader7.Text = "Ip : Port";
             // 
-            // columnHeader3
+            // columnHeader8
             // 
-            this.columnHeader3.Text = "Name";
+            this.columnHeader8.Text = "Name";
             // 
-            // columnHeader4
+            // columnHeader9
             // 
-            this.columnHeader4.Text = "User";
+            this.columnHeader9.Text = "User";
             // 
-            // columnHeader5
+            // columnHeader10
             // 
-            this.columnHeader5.Text = "Windows";
+            this.columnHeader10.Text = "Windows";
             // 
             // imageContextMenu1
             // 
             this.imageContextMenu1.Name = "imageContextMenu1";
-            this.imageContextMenu1.Size = new System.Drawing.Size(138, 48);
+            this.imageContextMenu1.Size = new System.Drawing.Size(153, 70);
             // 
             // Server
             // 
@@ -178,13 +173,13 @@
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnBuild;
         private System.Windows.Forms.Button btnStop;
-        private System.Windows.Forms.ListView lstClients;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
         private Utils.ImageContextMenu imageContextMenu1;
+        private System.Windows.Forms.ListView lstClients;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
     }
 }
 
