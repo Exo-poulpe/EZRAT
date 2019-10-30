@@ -45,7 +45,7 @@
             // 
             // panTools
             // 
-            this.panTools.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panTools.BackColor = System.Drawing.Color.LightGray;
             this.panTools.Controls.Add(this.btnSettings);
             this.panTools.Controls.Add(this.btnBuild);
             this.panTools.Controls.Add(this.btnStop);
@@ -57,7 +57,7 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnSettings.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSettings.Location = new System.Drawing.Point(0, 313);
             this.btnSettings.Name = "btnSettings";
@@ -68,7 +68,7 @@
             // 
             // btnBuild
             // 
-            this.btnBuild.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnBuild.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnBuild.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuild.Location = new System.Drawing.Point(0, 223);
             this.btnBuild.Name = "btnBuild";
@@ -79,7 +79,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnStop.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStop.Location = new System.Drawing.Point(0, 130);
             this.btnStop.Name = "btnStop";
@@ -90,7 +90,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnStart.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnStart.Location = new System.Drawing.Point(0, 47);
             this.btnStart.Name = "btnStart";
@@ -102,7 +102,7 @@
             // lstClients
             // 
             this.lstClients.Alignment = System.Windows.Forms.ListViewAlignment.Default;
-            this.lstClients.BackColor = System.Drawing.SystemColors.InfoText;
+            this.lstClients.BackColor = System.Drawing.Color.Gainsboro;
             this.lstClients.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstClients.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -111,8 +111,8 @@
             this.columnHeader4,
             this.columnHeader5});
             this.lstClients.ContextMenuStrip = this.imageContextMenu1;
-            this.lstClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lstClients.ForeColor = System.Drawing.Color.White;
+            this.lstClients.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstClients.ForeColor = System.Drawing.Color.Black;
             this.lstClients.FullRowSelect = true;
             this.lstClients.GridLines = true;
             this.lstClients.HideSelection = false;
