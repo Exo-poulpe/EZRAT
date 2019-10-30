@@ -3,8 +3,9 @@
 Is a simple R.A.T client server for Windows
 
 [![Arch](https://img.shields.io/badge/-Arch%20:%20x86-red?&style=flat-square)](https://google.com)
-
 [![RAT](https://img.shields.io/badge/-RAT-black?&style=flat-square)](https://google.com)
+[![.NET](https://img.shields.io/badge/-.NET%204.0-purple?&style=flat-square)](https://google.com)
+[![C#](https://img.shields.io/badge/-C%23-green?&style=flat-square)](https://google.com)
 
 ## Installation :
 For install client and server you must downlaod binaries and compile then
@@ -15,11 +16,12 @@ For install client and server you must downlaod binaries and compile then
 - [x] MultiClient
 - [x] Get informations from client
 - [x] File browsing client
-- [ ] Disconnect server correctly
+- [x] Disconnect server correctly
 - [x] Download upload file
 - [ ] Startup
-- [ ] Process viewer
+- [x] Process viewer
 - [ ] Remote desktop
+- [ ] ScreenShot
 - [ ] Camera stream
 
 ## Author :

