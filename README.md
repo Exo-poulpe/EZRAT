@@ -26,6 +26,7 @@ For install client and server you must downlaod binaries and compile then
 - [ ] Camera stream
 - [ ] Sound play
 - [ ] System info in details
+- [x] Shell
 
 
 ## Author :

