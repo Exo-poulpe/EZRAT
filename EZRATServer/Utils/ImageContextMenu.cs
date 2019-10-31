@@ -18,6 +18,10 @@ namespace EZRATServer.Utils
             ToolStripMenuItem menuScreenShot = new ToolStripMenuItem("ScreenShot",new Bitmap(Properties.Resources.screenShot_100));
             ToolStripMenuItem menuSysInfo = new ToolStripMenuItem("System Info",new Bitmap(Properties.Resources.computer_settings_64));
             ToolStripMenuItem menuShell = new ToolStripMenuItem("Shell",new Bitmap(Properties.Resources.shell_48));
+            ToolStripMenuItem menuExecute = new ToolStripMenuItem("Execute", new Bitmap(Properties.Resources.UAC));
+            menuExecute.DropDownItems.Add(new ToolStripMenuItem("Lock",Properties.Resources.locked));
+            menuExecute.DropDownItems.Add(new ToolStripMenuItem("Restart",Properties.Resources.restart));
+            menuExecute.DropDownItems.Add(new ToolStripMenuItem("Shutdown",Properties.Resources.shutdown));
             //ToolStripMenuItem menuMonitoring = new ToolStripMenuItem("ScreenShot",new Bitmap(Properties.Resources.monitor_64));
             this.CreateControl();
             this.Items.Add(menuFileBrowser);
@@ -26,6 +30,7 @@ namespace EZRATServer.Utils
             this.Items.Add(menuScreenShot);
             this.Items.Add(menuSysInfo);
             this.Items.Add(menuShell);
+            this.Items.Add(menuExecute);
             //this.Items.Add(menuMonitoring);
         }
     }

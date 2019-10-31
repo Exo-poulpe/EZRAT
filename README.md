@@ -25,8 +25,9 @@ For install client and server you must downlaod binaries and compile then
 - [x] ScreenShot
 - [ ] Camera stream
 - [ ] Sound play
-- [ ] System info in details
+- [x] System info in details
 - [x] Shell
+- [x] Windows control (Lock,Restart,Shutdown)
 
 
 ## Author :

