@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SystemDetails));
             this.lstInfos = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
@@ -45,9 +46,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 225);
             this.Controls.Add(this.lstInfos);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SystemDetails";
-            this.ShowIcon = false;
             this.Text = "SystemDetails";
             this.ResumeLayout(false);
 

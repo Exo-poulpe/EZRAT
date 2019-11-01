@@ -28,11 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Server));
             this.panTools = new System.Windows.Forms.Panel();
             this.btnSettings = new System.Windows.Forms.Button();
             this.btnBuild = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
+            this.menuExecute = new System.Windows.Forms.ToolStripMenuItem();
+            this.exeLock = new System.Windows.Forms.ToolStripMenuItem();
+            this.exeRestart = new System.Windows.Forms.ToolStripMenuItem();
+            this.exeShutdown = new System.Windows.Forms.ToolStripMenuItem();
             this.lstClients = new System.Windows.Forms.ListView();
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -40,12 +45,7 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageContextMenu1 = new EZRATServer.Utils.ImageContextMenu();
-            this.menuExecute = new System.Windows.Forms.ToolStripMenuItem();
-            this.exeLock = new System.Windows.Forms.ToolStripMenuItem();
-            this.exeRestart = new System.Windows.Forms.ToolStripMenuItem();
-            this.exeShutdown = new System.Windows.Forms.ToolStripMenuItem();
             this.panTools.SuspendLayout();
-            this.imageContextMenu1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panTools
@@ -100,6 +100,38 @@
             this.btnStart.Text = "Start server";
             this.btnStart.UseVisualStyleBackColor = false;
             // 
+            // menuExecute
+            // 
+            this.menuExecute.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exeLock,
+            this.exeRestart,
+            this.exeShutdown});
+            this.menuExecute.Image = global::EZRATServer.Properties.Resources.UAC;
+            this.menuExecute.Name = "menuExecute";
+            this.menuExecute.Size = new System.Drawing.Size(152, 22);
+            this.menuExecute.Text = "Execute";
+            // 
+            // exeLock
+            // 
+            this.exeLock.Image = global::EZRATServer.Properties.Resources.locked;
+            this.exeLock.Name = "exeLock";
+            this.exeLock.Size = new System.Drawing.Size(128, 22);
+            this.exeLock.Text = "Lock";
+            // 
+            // exeRestart
+            // 
+            this.exeRestart.Image = global::EZRATServer.Properties.Resources.restart;
+            this.exeRestart.Name = "exeRestart";
+            this.exeRestart.Size = new System.Drawing.Size(128, 22);
+            this.exeRestart.Text = "Restart";
+            // 
+            // exeShutdown
+            // 
+            this.exeShutdown.Image = global::EZRATServer.Properties.Resources.shutdown;
+            this.exeShutdown.Name = "exeShutdown";
+            this.exeShutdown.Size = new System.Drawing.Size(128, 22);
+            this.exeShutdown.Text = "Shutdown";
+            // 
             // lstClients
             // 
             this.lstClients.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -149,38 +181,6 @@
             this.imageContextMenu1.Name = "imageContextMenu1";
             this.imageContextMenu1.Size = new System.Drawing.Size(153, 158);
             // 
-            // menuExecute
-            // 
-            this.menuExecute.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exeLock,
-            this.exeRestart,
-            this.exeShutdown});
-            this.menuExecute.Image = global::EZRATServer.Properties.Resources.UAC;
-            this.menuExecute.Name = "menuExecute";
-            this.menuExecute.Size = new System.Drawing.Size(152, 22);
-            this.menuExecute.Text = "Execute";
-            // 
-            // exeLock
-            // 
-            this.exeLock.Image = global::EZRATServer.Properties.Resources.locked;
-            this.exeLock.Name = "exeLock";
-            this.exeLock.Size = new System.Drawing.Size(180, 22);
-            this.exeLock.Text = "Lock";
-            // 
-            // exeRestart
-            // 
-            this.exeRestart.Image = global::EZRATServer.Properties.Resources.restart;
-            this.exeRestart.Name = "exeRestart";
-            this.exeRestart.Size = new System.Drawing.Size(180, 22);
-            this.exeRestart.Text = "Restart";
-            // 
-            // exeShutdown
-            // 
-            this.exeShutdown.Image = global::EZRATServer.Properties.Resources.shutdown;
-            this.exeShutdown.Name = "exeShutdown";
-            this.exeShutdown.Size = new System.Drawing.Size(180, 22);
-            this.exeShutdown.Text = "Shutdown";
-            // 
             // Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -189,11 +189,11 @@
             this.Controls.Add(this.lstClients);
             this.Controls.Add(this.panTools);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Server";
             this.Text = "Server EZRAT";
             this.panTools.ResumeLayout(false);
-            this.imageContextMenu1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

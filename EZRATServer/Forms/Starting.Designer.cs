@@ -51,8 +51,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOK.BackColor = System.Drawing.SystemColors.ControlLight;
             this.btnOK.Location = new System.Drawing.Point(227, 11);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(68, 26);
@@ -64,12 +63,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(325, 49);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lblPort);
             this.Controls.Add(this.tbxPort);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Starting";
+            this.ShowIcon = false;
             this.Text = "Starting";
             this.ResumeLayout(false);
             this.PerformLayout();

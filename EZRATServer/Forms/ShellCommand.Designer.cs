@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ShellCommand));
             this.rtbText = new System.Windows.Forms.RichTextBox();
             this.tbxMessage = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -37,6 +38,9 @@
             // 
             // rtbText
             // 
+            this.rtbText.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbText.Location = new System.Drawing.Point(-1, -2);
             this.rtbText.Name = "rtbText";
             this.rtbText.ReadOnly = true;
@@ -46,6 +50,8 @@
             // 
             // tbxMessage
             // 
+            this.tbxMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxMessage.Location = new System.Drawing.Point(1, 316);
             this.tbxMessage.Name = "tbxMessage";
             this.tbxMessage.Size = new System.Drawing.Size(660, 20);
@@ -75,6 +81,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tbxMessage);
             this.Controls.Add(this.rtbText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ShellCommand";
             this.Text = "Command";
             this.statusStrip1.ResumeLayout(false);

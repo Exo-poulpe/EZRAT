@@ -28,16 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProcessViewer));
             this.lstProcess = new System.Windows.Forms.ListView();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstProcess
             // 
+            this.lstProcess.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstProcess.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lstProcess.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -51,6 +55,14 @@
             this.lstProcess.TabIndex = 0;
             this.lstProcess.UseCompatibleStateImageBehavior = false;
             this.lstProcess.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Name";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "PID";
             // 
             // statusStrip1
             // 
@@ -68,14 +80,6 @@
             this.lblStatus.Size = new System.Drawing.Size(117, 17);
             this.lblStatus.Text = "Number of process : ";
             // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Name";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "PID";
-            // 
             // ProcessViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -83,6 +87,7 @@
             this.ClientSize = new System.Drawing.Size(575, 450);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.lstProcess);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ProcessViewer";
             this.Text = "ProcessViewer";
             this.statusStrip1.ResumeLayout(false);

@@ -29,12 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileBrowser));
             this.lstFiles = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.uploadMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.renameMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.lblDrives = new System.Windows.Forms.Label();
             this.cmbDrives = new System.Windows.Forms.ComboBox();
@@ -42,9 +46,6 @@
             this.picUp = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.uploadMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.renameMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.deleteMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUp)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -87,18 +88,36 @@
             this.renameMenu,
             this.deleteMenu});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 120);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(129, 98);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(125, 6);
             // 
             // downloadMenu
             // 
             this.downloadMenu.Name = "downloadMenu";
-            this.downloadMenu.Size = new System.Drawing.Size(180, 22);
+            this.downloadMenu.Size = new System.Drawing.Size(128, 22);
             this.downloadMenu.Text = "Download";
+            // 
+            // uploadMenu
+            // 
+            this.uploadMenu.Name = "uploadMenu";
+            this.uploadMenu.Size = new System.Drawing.Size(128, 22);
+            this.uploadMenu.Text = "Upload";
+            // 
+            // renameMenu
+            // 
+            this.renameMenu.Name = "renameMenu";
+            this.renameMenu.Size = new System.Drawing.Size(128, 22);
+            this.renameMenu.Text = "Rename";
+            // 
+            // deleteMenu
+            // 
+            this.deleteMenu.Name = "deleteMenu";
+            this.deleteMenu.Size = new System.Drawing.Size(128, 22);
+            this.deleteMenu.Text = "Delete";
             // 
             // menuStrip1
             // 
@@ -161,24 +180,6 @@
             this.lblStatus.Size = new System.Drawing.Size(165, 17);
             this.lblStatus.Text = "Nombre de fichier et dossier : ";
             // 
-            // uploadMenu
-            // 
-            this.uploadMenu.Name = "uploadMenu";
-            this.uploadMenu.Size = new System.Drawing.Size(180, 22);
-            this.uploadMenu.Text = "Upload";
-            // 
-            // renameMenu
-            // 
-            this.renameMenu.Name = "renameMenu";
-            this.renameMenu.Size = new System.Drawing.Size(180, 22);
-            this.renameMenu.Text = "Rename";
-            // 
-            // deleteMenu
-            // 
-            this.deleteMenu.Name = "deleteMenu";
-            this.deleteMenu.Size = new System.Drawing.Size(180, 22);
-            this.deleteMenu.Text = "Delete";
-            // 
             // FileBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,6 +192,7 @@
             this.Controls.Add(this.lblDrives);
             this.Controls.Add(this.lstFiles);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FileBrowser";
             this.Text = "FileBrowser";

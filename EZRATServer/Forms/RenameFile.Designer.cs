@@ -66,7 +66,10 @@
             this.Controls.Add(this.btnValidate);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.tbxName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "RenameFile";
+            this.ShowIcon = false;
             this.Text = "RenameFile";
             this.ResumeLayout(false);
             this.PerformLayout();

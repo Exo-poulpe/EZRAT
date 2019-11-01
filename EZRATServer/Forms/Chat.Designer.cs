@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Chat));
             this.rtbMsg = new System.Windows.Forms.RichTextBox();
             this.tbxMsg = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
@@ -87,6 +88,7 @@
             this.Controls.Add(this.tbxMsg);
             this.Controls.Add(this.rtbMsg);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Chat";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

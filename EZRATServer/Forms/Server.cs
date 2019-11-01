@@ -362,18 +362,13 @@ namespace EZRATServer
                 {
                     lstClients.Items[i].Remove();
                     _clientSockets.RemoveAt(i);
-
-
                 }
-
             }
         }
 
         void StopServer(object sender, EventArgs e)
         {
             CloseAllSockets();
-            //_clientSockets.ForEach((c) => c.Shutdown(SocketShutdown.Both));
-            //_clientSockets.Clear();
         }
 
         void StartServer(object sender, EventArgs e)
