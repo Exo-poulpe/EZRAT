@@ -45,6 +45,7 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.imageContextMenu1 = new EZRATServer.Utils.ImageContextMenu();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panTools.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,7 +144,8 @@
             this.columnHeader7,
             this.columnHeader8,
             this.columnHeader9,
-            this.columnHeader10});
+            this.columnHeader10,
+            this.columnHeader1});
             this.lstClients.ContextMenuStrip = this.imageContextMenu1;
             this.lstClients.FullRowSelect = true;
             this.lstClients.GridLines = true;
@@ -180,6 +182,10 @@
             // 
             this.imageContextMenu1.Name = "imageContextMenu1";
             this.imageContextMenu1.Size = new System.Drawing.Size(153, 158);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Version";
             // 
             // Server
             // 
@@ -222,6 +228,7 @@
         private System.Windows.Forms.ToolStripMenuItem exeLock;
         private System.Windows.Forms.ToolStripMenuItem exeRestart;
         private System.Windows.Forms.ToolStripMenuItem exeShutdown;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }
 

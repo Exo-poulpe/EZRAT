@@ -337,6 +337,9 @@ namespace EZRATServer
                 case "Shutdown":
                     SendCommand("control;2", this.lstClients.SelectedIndices[0]);
                     break;
+                case "MessageBox":
+                    SendCommand("msgbox;" + new MessageBoxEditor().Dialog(), this.lstClients.SelectedIndices[0]);
+                    break;
                 default:
                     break;
             }
@@ -647,8 +650,9 @@ namespace EZRATServer
                         string name = lines[1]; //The Computer Name
                         string user = lines[2].Substring(lines[2].LastIndexOf('\\') + 1); //The computer's date and time
                         string windows = lines[3]; //The computer's installed Anti Virus product
+                        string version = lines[4];
 
-                        AddToData(new ClientData(id, ip, name, user, windows)); //Update the UI
+                        AddToData(new ClientData(id, ip, name, user, windows,version)); //Update the UI
                     }
                     else if (text.StartsWith("lsdrives;"))
                     {
@@ -780,13 +784,13 @@ namespace EZRATServer
         {
             if (!lstClients.InvokeRequired)
             {
-                this.lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows }));
+                this.lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows,data.Version }));
             }
             else
             {
                 lstClients.Invoke(new MethodInvoker(() =>
                 {
-                    lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows }));
+                    lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows, data.Version }));
                     lstClients.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     lstClients.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
@@ -798,7 +802,7 @@ namespace EZRATServer
 
         void UpdateDataClient(ClientData data)
         {
-            this.dgvClients.Rows[data.Id].SetValues(data.Ip, data.Name, data.User, data.Windows);
+            this.dgvClients.Rows[data.Id].SetValues(data.Ip, data.Name, data.User, data.Windows, data.Version);
         }
     }
 }

@@ -93,6 +93,16 @@ namespace EZRATServer.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Form_64 {
+            get {
+                object obj = ResourceManager.GetObject("Form_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap hacker_64 {
             get {
                 object obj = ResourceManager.GetObject("hacker_64", resourceCulture);

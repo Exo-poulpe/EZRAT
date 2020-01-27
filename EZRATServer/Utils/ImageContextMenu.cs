@@ -16,6 +16,7 @@ namespace EZRATServer.Utils
             ToolStripMenuItem menuChat = new ToolStripMenuItem("Chat",new Bitmap(Properties.Resources.chat_64));
             ToolStripMenuItem menuProcess = new ToolStripMenuItem("Process Viewer",new Bitmap(Properties.Resources.process_100));
             ToolStripMenuItem menuScreenShot = new ToolStripMenuItem("ScreenShot",new Bitmap(Properties.Resources.screenShot_100));
+            ToolStripMenuItem menuMessageBox = new ToolStripMenuItem("MessageBox",new Bitmap(Properties.Resources.Form_64));
             ToolStripMenuItem menuSysInfo = new ToolStripMenuItem("System Info",new Bitmap(Properties.Resources.computer_settings_64));
             ToolStripMenuItem menuShell = new ToolStripMenuItem("Shell",new Bitmap(Properties.Resources.shell_48));
             ToolStripMenuItem menuExecute = new ToolStripMenuItem("Execute", new Bitmap(Properties.Resources.UAC));
@@ -28,6 +29,7 @@ namespace EZRATServer.Utils
             this.Items.Add(menuChat);
             this.Items.Add(menuProcess);
             this.Items.Add(menuScreenShot);
+            this.Items.Add(menuMessageBox);
             this.Items.Add(menuSysInfo);
             this.Items.Add(menuShell);
             this.Items.Add(menuExecute);

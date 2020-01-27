@@ -66,6 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\MessageBoxEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MessageBoxEditor.Designer.cs">
+      <DependentUpon>MessageBoxEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ShellCommand.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     <Compile Include="Utils\ImageContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="Forms\MessageBoxEditor.resx">
+      <DependentUpon>MessageBoxEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ShellCommand.resx">
       <DependentUpon>ShellCommand.cs</DependentUpon>
     </EmbeddedResource>
@@ -206,6 +215,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\UAC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Form.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Form_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
