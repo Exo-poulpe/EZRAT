@@ -28,7 +28,7 @@ For install client and server you must downlaod binaries and compile then
 - [ ] Sound play
 - [ ] Change Wallpaper
 - [ ] Kill process
-- [ ] File viewer with size of file
+- [x] File viewer with size of file
 - [x] System info in details
 - [x] Shell
 - [x] Windows control (Lock,Restart,Shutdown)

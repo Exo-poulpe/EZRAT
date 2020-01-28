@@ -9,6 +9,7 @@ using System.Threading;
 using System.Security.Cryptography;
 using EZRATClient.Forms;
 using System.Diagnostics;
+using static EZRATClient.Utils.Constantes;
 
 namespace EZRATClient
 {
@@ -20,16 +21,6 @@ namespace EZRATClient
         [DllImport("user32.dll")]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        const int SW_HIDE = 0;
-        const int SW_SHOW = 5;
-
-
-        static string _ip = "192.168.1.112";
-        static int _port = 1234;
-        public static string _version = "0.1.0.1";
-
-        public static string Ip { get => _ip; set => _ip = value; }
-        public static int Port { get => _port; set => _port = value; }
 
         private static TcpClient client = new TcpClient();
         private static bool connectedBefore = false;
@@ -39,17 +30,13 @@ namespace EZRATClient
 
         private static bool _isDiconnect;
         private static bool isFileDownload;
-        private static string EncryptKey = "POULPE212123542345235";
+        
 
         public static bool isDisconnect
         {
             get { return _isDiconnect; }
             set { _isDiconnect = value; }
         }
-
-        
-
-        
 
 
         #region Variables

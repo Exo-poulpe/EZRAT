@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="CommandExecutor.cs" />
     <Compile Include="CommandParser.cs" />
+    <Compile Include="Utils\Constantes.cs" />
     <Compile Include="Forms\Chat.cs">
       <SubType>Form</SubType>
     </Compile>

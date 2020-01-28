@@ -46,6 +46,7 @@
             this.picUp = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picUp)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -58,7 +59,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lstFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
-            this.columnHeader2});
+            this.columnHeader2,
+            this.columnHeader3});
             this.lstFiles.ContextMenuStrip = this.contextMenuStrip1;
             this.lstFiles.FullRowSelect = true;
             this.lstFiles.HideSelection = false;
@@ -180,6 +182,10 @@
             this.lblStatus.Size = new System.Drawing.Size(165, 17);
             this.lblStatus.Text = "Nombre de fichier et dossier : ";
             // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Size";
+            // 
             // FileBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -223,5 +229,6 @@
         private System.Windows.Forms.ToolStripMenuItem uploadMenu;
         private System.Windows.Forms.ToolStripMenuItem renameMenu;
         private System.Windows.Forms.ToolStripMenuItem deleteMenu;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
     }
 }

