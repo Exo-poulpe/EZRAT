@@ -7,7 +7,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using EZRATClient.Utils;
 
-namespace EZRATClient
+namespace EZRATClient.Core
 {
     public static class CommandExecutor
     {

@@ -155,7 +155,7 @@ namespace EZRATServer
                 string[] data = lstData[i].Split(Constantes.Special_SeparatorChar);
                 if (data.Length > 2) // File
                 {
-                    AddFileOrFolder(data[0], FileType.File, ReduceByteSize(data[2]));
+                    AddFileOrFolder(data[0], FileType.File, ToolBox.ReduceByteSize(data[2]));
                 }
                 else if (data.Length == 2) // Folder
                 {
@@ -170,40 +170,7 @@ namespace EZRATServer
 
         }
 
-        private string ReduceByteSize(string value)
-        {
-            int KB = 1024;
-            int MB = KB * KB;
-            int GB = MB * KB;
-            int TB = GB * KB;
-
-            double tmp = Convert.ToDouble(value);
-            double result = 0;
-            string ResultChar = string.Empty;
-            if (tmp < KB)
-            {
-                result = tmp;
-                ResultChar = "B";
-            }
-            else if (tmp >= KB && tmp < MB)
-            {
-                result = tmp / KB;
-                ResultChar = "KB";
-            }
-            else if (tmp >= MB && tmp < GB)
-            {
-                result = tmp / MB;
-                ResultChar = "MB";
-            }
-            else if (tmp >= GB && tmp < TB)
-            {
-                result = (int)tmp / GB;
-                ResultChar = "GB";
-            }
-
-            return $"{result.ToString("0.")} {ResultChar}";
-
-        }
+        
 
         private void AddFileOrFolder(string name, FileType type, string size = "0")
         {

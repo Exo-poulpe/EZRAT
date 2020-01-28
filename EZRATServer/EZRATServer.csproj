@@ -128,6 +128,7 @@
     <Compile Include="Utils\ImageContextMenu.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Utils\ToolBox.cs" />
     <EmbeddedResource Include="Forms\MessageBoxEditor.resx">
       <DependentUpon>MessageBoxEditor.cs</DependentUpon>
     </EmbeddedResource>

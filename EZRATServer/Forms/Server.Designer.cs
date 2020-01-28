@@ -44,9 +44,12 @@
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.imageContextMenu1 = new EZRATServer.Utils.ImageContextMenu();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageContextMenu1 = new EZRATServer.Utils.ImageContextMenu();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.panTools.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panTools
@@ -178,20 +181,37 @@
             // 
             this.columnHeader10.Text = "Windows";
             // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Version";
+            // 
             // imageContextMenu1
             // 
             this.imageContextMenu1.Name = "imageContextMenu1";
             this.imageContextMenu1.Size = new System.Drawing.Size(153, 158);
             // 
-            // columnHeader1
+            // statusStrip1
             // 
-            this.columnHeader1.Text = "Version";
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 395);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(825, 22);
+            this.statusStrip1.TabIndex = 3;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(78, 17);
+            this.lblStatus.Text = "Server stoped";
             // 
             // Server
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 417);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.lstClients);
             this.Controls.Add(this.panTools);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -200,7 +220,10 @@
             this.Name = "Server";
             this.Text = "Server EZRAT";
             this.panTools.ResumeLayout(false);
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -229,6 +252,8 @@
         private System.Windows.Forms.ToolStripMenuItem exeRestart;
         private System.Windows.Forms.ToolStripMenuItem exeShutdown;
         private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
     }
 }
 

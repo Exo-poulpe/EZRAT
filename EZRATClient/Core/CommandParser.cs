@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using EZRATClient.Utils;
 
 
-namespace EZRATClient
+namespace EZRATClient.Core
 {
     static class CommandParser
     {

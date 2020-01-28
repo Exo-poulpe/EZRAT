@@ -66,8 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandExecutor.cs" />
-    <Compile Include="CommandParser.cs" />
+    <Compile Include="Core\CommandExecutor.cs" />
+    <Compile Include="Core\CommandParser.cs" />
     <Compile Include="Utils\Constantes.cs" />
     <Compile Include="Forms\Chat.cs">
       <SubType>Form</SubType>
@@ -80,6 +80,7 @@
     <Compile Include="Utils\Screen.cs" />
     <Compile Include="Utils\SystemInfo.cs" />
     <Compile Include="Utils\SystemInfoDetails.cs" />
+    <Compile Include="Utils\ToolBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

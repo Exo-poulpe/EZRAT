@@ -95,7 +95,7 @@ namespace EZRATClient.Utils
         {
             try
             {
-                int installedRAM = 0;
+                double installedRAM = 0;
                 string query = "Select * From Win32_ComputerSystem";
 
                 using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
@@ -103,11 +103,11 @@ namespace EZRATClient.Utils
                     foreach (ManagementObject mObject in searcher.Get())
                     {
                         double bytes = (Convert.ToDouble(mObject["TotalPhysicalMemory"]));
-                        installedRAM = (int)(bytes / 1048576);
+                        installedRAM = bytes;
                         break;
                     }
                 }
-                string tmp = $"RAM : {installedRAM}";
+                string tmp = $"RAM : {ToolBox.ReduceByteSize(installedRAM.ToString())}";
                 return tmp;
             }
             catch

