@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageBoxEditor));
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblText = new System.Windows.Forms.Label();
             this.tbxTitle = new System.Windows.Forms.TextBox();
@@ -109,6 +110,7 @@
             this.Controls.Add(this.lblText);
             this.Controls.Add(this.lblTitle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MessageBoxEditor";

