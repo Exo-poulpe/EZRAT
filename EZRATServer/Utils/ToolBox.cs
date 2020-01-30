@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using EZRATServer.Forms;
 
 namespace EZRATServer.Utils
 {
     public static class ToolBox
     {
-
         public static string ReduceByteSize(string value)
         {
             int KB = 1024;
@@ -40,6 +43,10 @@ namespace EZRATServer.Utils
             }
             return $"{result.ToString("0.")} {ResultChar}";
         }
+
+
+        
+
 
     }
 }

