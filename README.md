@@ -5,6 +5,7 @@ Is a simple R.A.T client server for Windows
 [![Arch](https://img.shields.io/badge/-Arch%20:%20x86-red?&style=flat-square)](https://google.com)
 [![RAT](https://img.shields.io/badge/-RAT-black?&style=flat-square)](https://google.com)
 [![.NET](https://img.shields.io/badge/-.NET%204.0-purple?&style=flat-square)](https://google.com)
+[![Version](https://img.shields.io/badge/-v0.1.2-blue?style=flat-square)](https://google.com)
 [![Encryption](https://img.shields.io/badge/-AES-gray?&style=flat-square)](https://google.com)
 [![C#](https://img.shields.io/badge/-C%23-green?&style=flat-square)](https://google.com)
 
@@ -36,11 +37,12 @@ For install client and server you must download source and compile then. Project
 - [ ] Kill process
 - [ ] Change Wallpaper
 - [ ] Camera stream
+- [ ] Client builder
 - [ ] Remote desktop
 
 
-## ScreenShot
-![Server_1ClientDemo](https://user-images.githubusercontent.com/33369156/73479792-ebe58900-4398-11ea-89e0-2629d948794e.png | width=200 )
+## ScreenShot : 
+![Server_1ClientDemo](https://user-images.githubusercontent.com/33369156/73479792-ebe58900-4398-11ea-89e0-2629d948794e.png)
 
 Server program with 1 client connected
 
