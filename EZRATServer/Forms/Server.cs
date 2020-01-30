@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using EZRATServer.Network;
 using EZRATServer.Utils;
 using EZRATServer.Forms;
 using Timer = System.Windows.Forms.Timer;
@@ -735,7 +730,6 @@ namespace EZRATServer
                     {
                         text = text.Substring(10);
                         byte[] img = Encoding.Default.GetBytes(text);
-
                         ShowScreenShot(StreamToImage(img));
                     }
                 }

@@ -24,7 +24,7 @@ For install client and server you must download source and compile then. Project
 - [x] Download upload file (Compatibility)
 - [x] Process viewer
 - [x] ScreenShot
-- [x] ScreenSpy with FPS counter
+- [x] ScreenSpy with FPS counter (~ average 2-3 FPS)
 - [x] File viewer with size of file
 - [x] System info in details
 - [x] Shell
@@ -35,10 +35,13 @@ For install client and server you must download source and compile then. Project
 - [ ] Sound play
 - [ ] Startup
 - [ ] Kill process
+- [ ] Open CD tray
 - [ ] Change Wallpaper
 - [ ] Camera stream
+- [ ] Disable keyboard & mouse
 - [ ] Client builder
 - [ ] Remote desktop
+- [ ] Hash dump, dump SAM database
 
 
 ## ScreenShot : 
