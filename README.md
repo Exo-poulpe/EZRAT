@@ -21,24 +21,27 @@ For install client and server you must download source and compile then. Project
 - [x] File transfert (only for small file ~10MB)
 - [x] Disconnect server correctly
 - [x] Download upload file (Compatibility)
-- [ ] Startup
 - [x] Process viewer
-- [ ] Remote desktop
 - [x] ScreenShot
 - [x] ScreenSpy with FPS counter
-- [ ] Camera stream
-- [ ] Sound play
-- [ ] Change Wallpaper
-- [ ] Kill process
 - [x] File viewer with size of file
 - [x] System info in details
 - [x] Shell
 - [x] Windows control (Lock,Restart,Shutdown)
 - [x] Message box editor 
 
+## Futur Features : 
+- [ ] Sound play
+- [ ] Startup
+- [ ] Kill process
+- [ ] Change Wallpaper
+- [ ] Camera stream
+- [ ] Remote desktop
+
 
 ## ScreenShot
-![Server_1ClientDemo](https://user-images.githubusercontent.com/33369156/73479792-ebe58900-4398-11ea-89e0-2629d948794e.png)
+![Server_1ClientDemo](https://user-images.githubusercontent.com/33369156/73479792-ebe58900-4398-11ea-89e0-2629d948794e.png | width=200 )
+
 Server program with 1 client connected
 
 
