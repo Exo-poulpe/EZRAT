@@ -61,7 +61,7 @@ namespace EZRATClient
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             IntPtr handle = GetConsoleWindow();
-            ShowWindow(handle, SW_HIDE);
+            ShowWindow(handle, SW_SHOW);
 
             try
             {
@@ -189,7 +189,7 @@ namespace EZRATClient
                 if (current == '§') //If we see this char -> message delimiter
                 {
                     int dataLength = int.Parse(rawData.Substring(readBack, i - readBack)); //Get the length of the command string
-                    string command = rawData.Substring(i + 1, dataLength); //Get the command string itself
+                    string command = rawData.Substring(i + 1,dataLength); //Get the command string itself
                     i += 1 + dataLength; //Skip the current command
                     readBack = i; //Set the read back point to here
                     commands.Add(command); //Add this command to the list

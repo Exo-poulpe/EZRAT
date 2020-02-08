@@ -86,6 +86,7 @@ namespace EZRATClient.Utils
             }
             catch
             {
+
             }
 
             return "Unknown";

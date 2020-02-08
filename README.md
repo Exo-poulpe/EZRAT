@@ -9,6 +9,12 @@ Is a simple R.A.T client server for Windows
 [![Encryption](https://img.shields.io/badge/-AES-gray?&style=flat-square)](https://google.com)
 [![C#](https://img.shields.io/badge/-C%23-green?&style=flat-square)](https://google.com)
 
+
+## RAT
+
+![Banner](https://user-images.githubusercontent.com/33369156/74089566-aadd2b00-4aa2-11ea-8dee-b56b5eecaaaa.png)
+
+
 ## Installation :
 For install client and server you must download source and compile then. Project build with Visual Studio 2019
 
@@ -19,9 +25,8 @@ For install client and server you must download source and compile then. Project
 - [x] Get informations from client
 - [x] PerrToPeer connection 
 - [x] File browsing client
-- [x] File transfert (only for small file ~10MB)
 - [x] Disconnect server correctly
-- [x] Download upload file (Compatibility)
+- [x] Download file
 - [x] Process viewer
 - [x] ScreenShot
 - [x] ScreenSpy with FPS counter (~ average 2-3 FPS)
@@ -32,6 +37,7 @@ For install client and server you must download source and compile then. Project
 - [x] Message box editor 
 
 ## Futur Features : 
+- [ ] Upload file
 - [ ] Sound play
 - [ ] Startup
 - [ ] Kill process

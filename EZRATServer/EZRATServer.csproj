@@ -66,6 +66,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\NameUpload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NameUpload.Designer.cs">
+      <DependentUpon>NameUpload.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ScreenShotViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +143,9 @@
     <Compile Include="Utils\ToolBox.cs" />
     <EmbeddedResource Include="Forms\MessageBoxEditor.resx">
       <DependentUpon>MessageBoxEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NameUpload.resx">
+      <DependentUpon>NameUpload.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ScreenShotViewer.resx">
       <DependentUpon>ScreenShotViewer.cs</DependentUpon>
@@ -235,6 +244,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\screenshot_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\clientControl_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\close_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

