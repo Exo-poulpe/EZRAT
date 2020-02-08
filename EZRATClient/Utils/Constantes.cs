@@ -16,7 +16,7 @@ namespace EZRATClient.Utils
         private static string _ip = "192.168.1.112";
         private static int _port = 1234;
         private static int _screenShotSpeed = 100;
-        private static string _version = "0.1.4.0";
+        private static string _version = "0.1.5.0";
         private static string _encryptKey = "POULPE212123542345235";
         private static Size _defaultCompressionSize = new Size(1280, 720);
         private static string _separator = "|";

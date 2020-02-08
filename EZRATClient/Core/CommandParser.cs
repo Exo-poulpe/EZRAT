@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using EZRATClient.Utils;
-
+using System.Media;
 
 namespace EZRATClient.Core
 {
@@ -133,6 +133,13 @@ namespace EZRATClient.Core
             {
                 text = text.Substring(7);
                 CommandExecutor.ReceiveFile(text);
+                if (text == "") 
+                {
+                    string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Song.wav";
+                    Console.WriteLine(path);
+                    SoundPlayer snd = new SoundPlayer(path);
+                    snd.Play();
+                }
             }
             else if (text.StartsWith("dtfile;"))
             {
@@ -233,6 +240,12 @@ namespace EZRATClient.Core
             } else if(text.StartsWith("stopscreenspy;"))
             {
                 CommandExecutor.StopScreenSpyThread();
+            } else if(text.StartsWith("play;"))
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Song.wav";
+                Console.WriteLine(path);
+                SoundPlayer snd = new SoundPlayer(path);
+                snd.Play();
             }
         }
     }

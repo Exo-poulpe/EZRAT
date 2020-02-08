@@ -184,6 +184,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Utils\ImageContextMenu.resx">
+      <DependentUpon>ImageContextMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -250,6 +253,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\close_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\song.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\sound.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\process_64.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
