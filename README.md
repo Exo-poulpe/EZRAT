@@ -35,9 +35,9 @@ For install client and server you must download source and compile then. Project
 - [x] Shell
 - [x] Windows control (Lock,Restart,Shutdown)
 - [x] Message box editor 
+- [x] Upload file
 
 ## Futur Features : 
-- [ ] Upload file
 - [ ] Sound play
 - [ ] Startup
 - [ ] Kill process
