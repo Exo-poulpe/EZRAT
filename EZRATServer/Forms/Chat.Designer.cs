@@ -37,6 +37,9 @@
             // 
             // rtbMsg
             // 
+            this.rtbMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbMsg.BackColor = System.Drawing.Color.DarkGray;
             this.rtbMsg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rtbMsg.Location = new System.Drawing.Point(0, -1);
@@ -48,6 +51,9 @@
             // 
             // tbxMsg
             // 
+            this.tbxMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbxMsg.BackColor = System.Drawing.Color.LightGray;
             this.tbxMsg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbxMsg.Location = new System.Drawing.Point(1, 266);
@@ -57,6 +63,9 @@
             // 
             // btnSend
             // 
+            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSend.BackColor = System.Drawing.Color.LightGray;
             this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSend.Location = new System.Drawing.Point(444, 265);
@@ -68,6 +77,9 @@
             // 
             // btnGet
             // 
+            this.btnGet.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGet.BackColor = System.Drawing.Color.LightGray;
             this.btnGet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGet.Location = new System.Drawing.Point(518, 265);

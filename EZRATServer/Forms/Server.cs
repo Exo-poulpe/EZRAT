@@ -295,7 +295,8 @@ namespace EZRATServer
             this.FormClosing += CloseProgram;
             tmr.Tick += UpdateClient;
             this.imageContextMenu1.ItemClicked += RightClickSelect;
-            (this.imageContextMenu1.Items[6] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
+            (this.imageContextMenu1.Items[10] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
+            (this.imageContextMenu1.Items[9] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
         }
         private void BuilderClient(object sende4r,EventArgs e)
         {
@@ -368,6 +369,12 @@ namespace EZRATServer
                     {
                         UploadFile(opf.FileName);
                     }
+                    break;
+                case "Close":
+                    SendCommand("dc", GetIdClient());
+                    this._clientSockets[GetIdClient()].Shutdown(SocketShutdown.Both);
+                    this._clientSockets.RemoveAt(GetIdClient());
+                    this.lstClients.Invoke(new MethodInvoker(() => this.lstClients.Items[GetIdClient()].Remove()));
                     break;
                 default:
                     break;
@@ -711,7 +718,7 @@ namespace EZRATServer
                     MessageBox.Show("Original Error :: " + ex.Message); //Display the error message
                 }
 
-                if (text != null) //If text is not null
+                if (text != null && this._clientSockets.Count > 0) //If text is not null
                 {
                     if (text.StartsWith("infoback;")) //Info received from client
                     {

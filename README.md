@@ -5,7 +5,7 @@ Is a simple R.A.T client server for Windows
 [![Arch](https://img.shields.io/badge/-Arch%20:%20x86-red?&style=flat-square)](https://google.com)
 [![RAT](https://img.shields.io/badge/-RAT-black?&style=flat-square)](https://google.com)
 [![.NET](https://img.shields.io/badge/-.NET%204.0-purple?&style=flat-square)](https://google.com)
-[![Version](https://img.shields.io/badge/-v0.1.5-blue?style=flat-square)](https://google.com)
+[![Version](https://img.shields.io/badge/-v0.1.6-blue?style=flat-square)](https://google.com)
 [![Encryption](https://img.shields.io/badge/-AES-gray?&style=flat-square)](https://google.com)
 [![C#](https://img.shields.io/badge/-C%23-green?&style=flat-square)](https://google.com)
 
@@ -20,9 +20,10 @@ For install client and server you must download source and compile then. Project
 
 ## Requirement : 
 You need : 
-        * Visual Studio 2019 (with msbuild)
-        * Framework >= 4.0
-        * Use the csproj for generate the client
+
+* Visual Studio 2019 (with msbuild)
+* Framework >= 4.0
+* Use the csproj for generate the client
 
 ## Features :
 - [x] Client Reverse TCP
@@ -65,4 +66,4 @@ Server program with 1 client connected
 ## Author :
 @Exo-poulpe
 
-This software come whitout guarantee
+This software come whitout any guarantee

@@ -66,6 +66,7 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.tbxName);
             this.Controls.Add(this.lblName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "NameUpload";
             this.Text = "NameUpload";
             this.ResumeLayout(false);
