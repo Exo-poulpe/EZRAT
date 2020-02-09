@@ -16,7 +16,13 @@ Is a simple R.A.T client server for Windows
 
 
 ## Installation :
-For install client and server you must download source and compile then. Project build with Visual Studio 2019
+For install client and server you must download source and compile then. Project build with Visual Studio 2019.
+
+## Requirement : 
+You need : 
+        * Visual Studio 2019 (with msbuild)
+        * Framework >= 4.0
+        * Use the csproj for generate the client
 
 ## Features :
 - [x] Client Reverse TCP
@@ -37,6 +43,7 @@ For install client and server you must download source and compile then. Project
 - [x] Message box editor 
 - [x] Upload file
 - [x] Sound play (only wav files)
+- [x] Client builder (with msbuild)
 
 ## Futur Features : 
 - [ ] Startup
@@ -45,7 +52,6 @@ For install client and server you must download source and compile then. Project
 - [ ] Change Wallpaper
 - [ ] Camera stream
 - [ ] Disable keyboard & mouse
-- [ ] Client builder
 - [ ] Remote desktop
 - [ ] Hash dump, dump SAM database
 

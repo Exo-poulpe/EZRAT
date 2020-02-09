@@ -290,12 +290,19 @@ namespace EZRATServer
             lstClients.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
             this.btnStart.Click += StartServer;
             this.btnStop.Click += StopServer;
+            this.btnBuild.Click += BuilderClient;
             this.btnSettings.Click += NotifiClients;
             this.FormClosing += CloseProgram;
             tmr.Tick += UpdateClient;
             this.imageContextMenu1.ItemClicked += RightClickSelect;
             (this.imageContextMenu1.Items[6] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
         }
+        private void BuilderClient(object sende4r,EventArgs e)
+        {
+            ClientBuilder cb = new ClientBuilder();
+            cb.Show();
+        }
+
 
         public int GetIdClient()
         {
