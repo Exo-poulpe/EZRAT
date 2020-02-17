@@ -17,15 +17,22 @@ namespace EZRATServer.Forms
         {
             InitializeComponent();
             this.btnOK.Click += BtnOK;
+            this.tbxPort.KeyPress += DetectEnter;
         }
 
         public int Port { get => _port; set => _port = value; }
 
-        void BtnOK(object sender,EventArgs  e)
+        private void BtnOK(object sender,EventArgs  e)
         {
             this.Port = Convert.ToInt32(this.tbxPort.Text);
             this.Close();
         }
-
+        private void DetectEnter(object sender,KeyPressEventArgs key)
+        {
+            if ((Keys)key.KeyChar == Keys.Enter)
+            {
+                this.btnOK.PerformClick();
+            }
+        }
     }
 }

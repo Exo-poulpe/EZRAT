@@ -50,6 +50,9 @@
             this.btnSearchingClient = new System.Windows.Forms.Button();
             this.tbxClientProj = new System.Windows.Forms.TextBox();
             this.lblCsproj = new System.Windows.Forms.Label();
+            this.lblOutput = new System.Windows.Forms.Label();
+            this.tbxOutput = new System.Windows.Forms.TextBox();
+            this.btnOutput = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblName
@@ -72,7 +75,7 @@
             // lblIp
             // 
             this.lblIp.AutoSize = true;
-            this.lblIp.Location = new System.Drawing.Point(18, 53);
+            this.lblIp.Location = new System.Drawing.Point(18, 58);
             this.lblIp.Name = "lblIp";
             this.lblIp.Size = new System.Drawing.Size(23, 13);
             this.lblIp.TabIndex = 2;
@@ -80,7 +83,7 @@
             // 
             // tbxIP
             // 
-            this.tbxIP.Location = new System.Drawing.Point(53, 49);
+            this.tbxIP.Location = new System.Drawing.Point(53, 54);
             this.tbxIP.Name = "tbxIP";
             this.tbxIP.Size = new System.Drawing.Size(258, 20);
             this.tbxIP.TabIndex = 3;
@@ -88,7 +91,7 @@
             // lblPort
             // 
             this.lblPort.AutoSize = true;
-            this.lblPort.Location = new System.Drawing.Point(12, 84);
+            this.lblPort.Location = new System.Drawing.Point(12, 93);
             this.lblPort.Name = "lblPort";
             this.lblPort.Size = new System.Drawing.Size(35, 13);
             this.lblPort.TabIndex = 4;
@@ -96,7 +99,7 @@
             // 
             // tbxPort
             // 
-            this.tbxPort.Location = new System.Drawing.Point(53, 81);
+            this.tbxPort.Location = new System.Drawing.Point(53, 90);
             this.tbxPort.Name = "tbxPort";
             this.tbxPort.Size = new System.Drawing.Size(123, 20);
             this.tbxPort.TabIndex = 5;
@@ -104,7 +107,7 @@
             // 
             // btnBuild
             // 
-            this.btnBuild.Location = new System.Drawing.Point(132, 176);
+            this.btnBuild.Location = new System.Drawing.Point(131, 234);
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(75, 23);
             this.btnBuild.TabIndex = 6;
@@ -115,7 +118,7 @@
             // 
             this.lblOptions.AutoSize = true;
             this.lblOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOptions.Location = new System.Drawing.Point(3, 194);
+            this.lblOptions.Location = new System.Drawing.Point(3, 255);
             this.lblOptions.Name = "lblOptions";
             this.lblOptions.Size = new System.Drawing.Size(43, 13);
             this.lblOptions.TabIndex = 7;
@@ -179,7 +182,7 @@
             // lblBuild
             // 
             this.lblBuild.AutoSize = true;
-            this.lblBuild.Location = new System.Drawing.Point(12, 114);
+            this.lblBuild.Location = new System.Drawing.Point(12, 167);
             this.lblBuild.Name = "lblBuild";
             this.lblBuild.Size = new System.Drawing.Size(80, 13);
             this.lblBuild.TabIndex = 15;
@@ -187,7 +190,7 @@
             // 
             // tbxBuild
             // 
-            this.tbxBuild.Location = new System.Drawing.Point(95, 111);
+            this.tbxBuild.Location = new System.Drawing.Point(95, 164);
             this.tbxBuild.Name = "tbxBuild";
             this.tbxBuild.Size = new System.Drawing.Size(216, 20);
             this.tbxBuild.TabIndex = 16;
@@ -196,7 +199,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(310, 110);
+            this.btnSearch.Location = new System.Drawing.Point(310, 163);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(25, 23);
             this.btnSearch.TabIndex = 17;
@@ -205,7 +208,7 @@
             // 
             // btnSearchingClient
             // 
-            this.btnSearchingClient.Location = new System.Drawing.Point(310, 138);
+            this.btnSearchingClient.Location = new System.Drawing.Point(310, 198);
             this.btnSearchingClient.Name = "btnSearchingClient";
             this.btnSearchingClient.Size = new System.Drawing.Size(25, 23);
             this.btnSearchingClient.TabIndex = 20;
@@ -214,7 +217,7 @@
             // 
             // tbxClientProj
             // 
-            this.tbxClientProj.Location = new System.Drawing.Point(95, 139);
+            this.tbxClientProj.Location = new System.Drawing.Point(95, 199);
             this.tbxClientProj.Name = "tbxClientProj";
             this.tbxClientProj.Size = new System.Drawing.Size(216, 20);
             this.tbxClientProj.TabIndex = 19;
@@ -223,17 +226,45 @@
             // lblCsproj
             // 
             this.lblCsproj.AutoSize = true;
-            this.lblCsproj.Location = new System.Drawing.Point(10, 142);
+            this.lblCsproj.Location = new System.Drawing.Point(10, 202);
             this.lblCsproj.Name = "lblCsproj";
             this.lblCsproj.Size = new System.Drawing.Size(87, 13);
             this.lblCsproj.TabIndex = 18;
             this.lblCsproj.Text = "Path Client proj : ";
             // 
+            // lblOutput
+            // 
+            this.lblOutput.AutoSize = true;
+            this.lblOutput.Location = new System.Drawing.Point(9, 130);
+            this.lblOutput.Name = "lblOutput";
+            this.lblOutput.Size = new System.Drawing.Size(48, 13);
+            this.lblOutput.TabIndex = 21;
+            this.lblOutput.Text = "Output : ";
+            // 
+            // tbxOutput
+            // 
+            this.tbxOutput.Location = new System.Drawing.Point(53, 127);
+            this.tbxOutput.Name = "tbxOutput";
+            this.tbxOutput.Size = new System.Drawing.Size(258, 20);
+            this.tbxOutput.TabIndex = 22;
+            // 
+            // btnOutput
+            // 
+            this.btnOutput.Location = new System.Drawing.Point(310, 126);
+            this.btnOutput.Name = "btnOutput";
+            this.btnOutput.Size = new System.Drawing.Size(25, 23);
+            this.btnOutput.TabIndex = 23;
+            this.btnOutput.Text = "...";
+            this.btnOutput.UseVisualStyleBackColor = true;
+            // 
             // ClientBuilder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(657, 211);
+            this.ClientSize = new System.Drawing.Size(657, 271);
+            this.Controls.Add(this.btnOutput);
+            this.Controls.Add(this.tbxOutput);
+            this.Controls.Add(this.lblOutput);
             this.Controls.Add(this.btnSearchingClient);
             this.Controls.Add(this.tbxClientProj);
             this.Controls.Add(this.lblCsproj);
@@ -290,5 +321,8 @@
         private System.Windows.Forms.Button btnSearchingClient;
         private System.Windows.Forms.TextBox tbxClientProj;
         private System.Windows.Forms.Label lblCsproj;
+        private System.Windows.Forms.Label lblOutput;
+        private System.Windows.Forms.TextBox tbxOutput;
+        private System.Windows.Forms.Button btnOutput;
     }
 }

