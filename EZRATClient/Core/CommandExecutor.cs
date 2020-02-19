@@ -161,7 +161,7 @@ namespace EZRATClient.Core
             return Constantes.Spy;
         }
 
-        public static void StopScreenSpyThread()
+        unsafe public static void StopScreenSpyThread()
         {
             Constantes.Spy.Abort();
         }

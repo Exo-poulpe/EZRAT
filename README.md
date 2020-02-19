@@ -18,6 +18,8 @@ Is a simple R.A.T client server for Windows
 ## Installation :
 For install client and server you must download source and compile then. Project build with Visual Studio 2019.
 
+Release v0.1.6.1 is full of bugs but it work some times ;P
+
 ## Requirement : 
 You need : 
 
