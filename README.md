@@ -10,6 +10,10 @@ Is a simple R.A.T client server for Windows
 [![C#](https://img.shields.io/badge/-C%23-green?&style=flat-square)](https://google.com)
 
 
+
+Note! : I don't Accept any responsibility for any illegal usage.
+Educational Purpose Only
+
 ## RAT
 
 ![Banner](https://user-images.githubusercontent.com/33369156/74089566-aadd2b00-4aa2-11ea-8dee-b56b5eecaaaa.png)
@@ -69,3 +73,4 @@ Server program with 1 client connected
 @Exo-poulpe
 
 This software come whitout any guarantee
+
