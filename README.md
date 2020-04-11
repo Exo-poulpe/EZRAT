@@ -11,8 +11,7 @@ Is a simple R.A.T client server for Windows
 
 
 
-Note! : I don't Accept any responsibility for any illegal usage.
-Educational Purpose Only
+This tool is for educational purpose only, usage of EZRAT for attacking targets without prior mutual consent is illegal. Developers assume no liability and are not responsible for any misuse or damage cause by this program.
 
 ## RAT
 
